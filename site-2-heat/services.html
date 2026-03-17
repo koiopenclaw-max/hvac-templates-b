@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Услуги - Хийт Мастърс</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; color: #2b2b2b; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Bitter', serif; }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-family: 'Bitter', serif; font-size: 1.6rem; font-weight: 700; color: #fcbf49; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: #fff; text-decoration: none; font-family: 'Lora', serif; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #fcbf49; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .hamburger span { width: 28px; height: 3px; background: #fcbf49; border-radius: 3px; transition: 0.3s; }
+
+        .page-header { padding: 140px 5% 70px; background: linear-gradient(135deg, #d62828 0%, #ff6b35 50%, #f77f00 100%); text-align: center; position: relative; }
+        .page-header::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1600') center/cover; opacity: 0.1; }
+        .page-header h1 { font-size: 2.8rem; color: #fff; position: relative; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+        .page-header p { color: rgba(255,255,255,0.9); font-size: 1.15rem; margin-top: 12px; position: relative; }
+
+        .section-title { text-align: center; font-size: 2.2rem; color: #d62828; margin-bottom: 50px; }
+        .section-title::after { content: ''; display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #ff6b35, #fcbf49); margin: 15px auto 0; border-radius: 2px; }
+
+        /* Services */
+        .services { padding: 80px 5%; background: #fff; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; max-width: 1200px; margin: 0 auto; }
+        .service-card { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.08); transition: all 0.4s; background: #fff; border: 1px solid rgba(255,107,53,0.1); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(214,40,40,0.15); }
+        .service-img { height: 200px; background-size: cover; background-position: center; position: relative; }
+        .service-img::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(transparent, rgba(214,40,40,0.08)); }
+        .service-body { padding: 28px; }
+        .service-body h3 { font-size: 1.3rem; color: #d62828; margin-bottom: 12px; }
+        .service-body p { color: #555; line-height: 1.7; font-size: 0.95rem; margin-bottom: 15px; }
+        .service-price { display: inline-block; padding: 6px 18px; background: linear-gradient(135deg, #ff6b35, #fcbf49); color: #fff; border-radius: 20px; font-family: 'Bitter', serif; font-weight: 600; font-size: 0.9rem; }
+        .service-features { list-style: none; margin: 15px 0; }
+        .service-features li { padding: 5px 0; color: #444; font-size: 0.9rem; padding-left: 20px; position: relative; }
+        .service-features li::before { content: '&#10003;'; position: absolute; left: 0; color: #ff6b35; font-weight: bold; }
+
+        /* Process */
+        .process { padding: 80px 5%; background: #fdf6ec; }
+        .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        .step { text-align: center; position: relative; }
+        .step-number { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #d62828, #ff6b35); color: #fff; font-family: 'Bitter', serif; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; }
+        .step h3 { color: #d62828; font-size: 1.05rem; margin-bottom: 8px; }
+        .step p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+
+        /* CTA */
+        .cta-section { padding: 70px 5%; background: linear-gradient(135deg, #d62828, #ff6b35); text-align: center; }
+        .cta-section h2 { font-size: 2rem; color: #fff; margin-bottom: 18px; }
+        .cta-section p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 25px; }
+        .btn-light { display: inline-block; padding: 15px 38px; background: #fcbf49; color: #1e1e1e; font-family: 'Bitter', serif; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.3s; }
+        .btn-light:hover { background: #fff; transform: translateY(-2px); }
+
+        footer { background: #1e1e1e; color: #ccc; padding: 50px 5% 25px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .footer-col h4 { font-size: 1.1rem; color: #fcbf49; margin-bottom: 18px; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; font-size: 0.9rem; line-height: 2; display: block; }
+        .footer-col a:hover { color: #fcbf49; }
+        .social-links { display: flex; gap: 12px; margin-top: 10px; }
+        .social-links a { width: 38px; height: 38px; border-radius: 50%; background: rgba(252,191,73,0.15); display: flex; align-items: center; justify-content: center; color: #fcbf49; font-size: 0.85rem; transition: 0.3s; }
+        .social-links a:hover { background: #fcbf49; color: #1e1e1e; }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: rgba(30,30,30,0.98); flex-direction: column; align-items: center; padding: 30px 0; gap: 20px; transform: translateY(-150%); transition: 0.4s; }
+            .nav-links.open { transform: translateY(0); }
+            .page-header h1 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Хийт Мастърс</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html" class="active">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Нашите услуги</h1>
+        <p>Комплексни решения за отопление, климатизация и вентилация</p>
+    </section>
+
+    <section class="services">
+        <h2 class="section-title">Какво предлагаме</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1631545806609-35d4ae440e44?w=800');"></div>
+                <div class="service-body">
+                    <h3>Монтаж на климатици</h3>
+                    <p>Професионален монтаж на битови и промишлени климатични системи от всички водещи марки. Бърза и чиста инсталация с гаранция.</p>
+                    <ul class="service-features">
+                        <li>Безплатен оглед на обекта</li>
+                        <li>Монтаж за 1 работен ден</li>
+                        <li>Гаранция на труда 2 години</li>
+                    </ul>
+                    <span class="service-price">от 250 лв.</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800');"></div>
+                <div class="service-body">
+                    <h3>Сервиз и поддръжка</h3>
+                    <p>Редовна профилактика и ремонт на климатични и отоплителни системи. Удължете живота на вашето оборудване с навременна поддръжка.</p>
+                    <ul class="service-features">
+                        <li>Почистване и дезинфекция</li>
+                        <li>Зареждане с фреон</li>
+                        <li>Диагностика и ремонт</li>
+                    </ul>
+                    <span class="service-price">от 80 лв.</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800');"></div>
+                <div class="service-body">
+                    <h3>Отоплителни системи</h3>
+                    <p>Проектиране и изграждане на цялостни отоплителни системи за дома и бизнеса. Подово отопление, радиатори и конвектори.</p>
+                    <ul class="service-features">
+                        <li>Индивидуален проект</li>
+                        <li>Подово отопление</li>
+                        <li>Енергийно ефективни решения</li>
+                    </ul>
+                    <span class="service-price">по запитване</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800');"></div>
+                <div class="service-body">
+                    <h3>Вентилационни системи</h3>
+                    <p>Проектиране и монтаж на вентилационни системи за чист въздух в офиси, ресторанти, магазини и производствени помещения.</p>
+                    <ul class="service-features">
+                        <li>Приточно-смукателна вентилация</li>
+                        <li>Рекуператори</li>
+                        <li>Въздуховоди и решетки</li>
+                    </ul>
+                    <span class="service-price">по запитване</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800');"></div>
+                <div class="service-body">
+                    <h3>Термопомпи</h3>
+                    <p>Доставка и инсталация на термопомпи въздух-вода и въздух-въздух. Най-ефективното решение за отопление и охлаждане целогодишно.</p>
+                    <ul class="service-features">
+                        <li>Въздух-вода и въздух-въздух</li>
+                        <li>Спестяване до 70% от разходите</li>
+                        <li>Субсидии и финансиране</li>
+                    </ul>
+                    <span class="service-price">от 3 500 лв.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <h2 class="section-title">Как работим</h2>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Запитване</h3>
+                <p>Свържете се с нас по телефон, имейл или чрез формата за контакт.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Оглед</h3>
+                <p>Наш специалист ще посети обекта безплатно и ще направи оценка.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Оферта</h3>
+                <p>Получавате детайлна оферта с ясни цени и срокове за изпълнение.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Монтаж</h3>
+                <p>Извършваме професионален монтаж с гаранция за качество.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Нуждаете се от отоплително решение?</h2>
+        <p>Заявете безплатен оглед и получете персонализирана оферта.</p>
+        <a href="contact.html" class="btn-light">Заяви оглед</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Хийт Мастърс</h4>
+                <p>Вашият доверен партньор в отоплителните и климатични решения от 2008 година в Пловдив.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>&#128222; +359 32 123 456</p>
+                <p>&#128231; info@heitmasters.bg</p>
+                <p>&#128205; бул. Марица 45, Пловдив 4000</p>
+            </div>
+            <div class="footer-col">
+                <h4>Следете ни</h4>
+                <div class="social-links">
+                    <a href="#">Fb</a>
+                    <a href="#">In</a>
+                    <a href="#">Yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Хийт Мастърс. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

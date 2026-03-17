@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>За нас | Смарт Еър</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-dark: #0a0a0a; --bg-secondary: #1a1a2e; --green-1: #00ff41; --green-2: #39ff14; --green-3: #00e676; --text: #e0e0e0; --text-dim: #888; }
+        body { font-family: 'Exo 2', sans-serif; background: var(--bg-dark); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,255,65,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.5), 0 0 30px rgba(0,255,65,0.2); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.95rem; color: var(--text); transition: color 0.3s, text-shadow 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--green-1); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 2px; background: var(--green-1); transition: 0.3s; }
+
+        .glow { color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.4); }
+        .btn-glow { display: inline-block; padding: 14px 36px; background: var(--green-1); border: 1px solid var(--green-1); color: var(--bg-dark); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .btn-glow:hover { background: var(--green-2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
+
+        /* PAGE HEADER */
+        .page-header { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at 50% 30%, rgba(0,255,65,0.04), transparent 60%), var(--bg-dark); }
+        .page-header .tag { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; opacity: 0.7; }
+        .page-header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* STORY */
+        .story { padding: 80px 5%; background: var(--bg-secondary); }
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: center; }
+        .story-img { border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,255,65,0.15); position: relative; }
+        .story-img img { width: 100%; height: 400px; object-fit: cover; display: block; filter: brightness(0.8) saturate(0.9); }
+        .story-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,255,65,0.08), transparent); }
+        .story-text h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .story-text p { color: var(--text-dim); line-height: 1.8; margin-bottom: 1.2rem; font-size: 0.95rem; }
+        .story-text .highlight { color: var(--green-1); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; padding: 12px 16px; background: rgba(0,255,65,0.05); border-left: 2px solid var(--green-1); margin: 1.5rem 0; }
+
+        /* VALUES */
+        .values { padding: 80px 5%; background: var(--bg-dark); }
+        .values-title { text-align: center; margin-bottom: 3rem; }
+        .values-title h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+        .value-card { background: rgba(26,26,46,0.6); border: 1px solid rgba(0,255,65,0.1); border-radius: 8px; padding: 2rem 1.5rem; text-align: center; transition: 0.3s; }
+        .value-card:hover { border-color: rgba(0,255,65,0.35); transform: translateY(-4px); }
+        .value-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+        .value-card h3 { font-size: 1.1rem; color: var(--green-1); margin-bottom: 0.6rem; }
+        .value-card p { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; }
+
+        /* STATS */
+        .stats { padding: 60px 5%; background: var(--bg-secondary); border-top: 1px solid rgba(0,255,65,0.1); border-bottom: 1px solid rgba(0,255,65,0.1); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; text-align: center; }
+        .stat-item .num { font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
+        .stat-item .label { color: var(--text-dim); font-size: 0.88rem; margin-top: 0.3rem; }
+
+        /* TEAM */
+        .team { padding: 80px 5%; background: var(--bg-dark); }
+        .team-title { text-align: center; margin-bottom: 3rem; }
+        .team-title h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .team-title p { color: var(--text-dim); }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; }
+        .team-card { text-align: center; padding: 2rem; background: rgba(26,26,46,0.4); border: 1px solid rgba(0,255,65,0.08); border-radius: 8px; transition: 0.3s; }
+        .team-card:hover { border-color: rgba(0,255,65,0.25); }
+        .team-card .avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--green-1), var(--green-3)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--bg-dark); font-weight: 700; }
+        .team-card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .team-card p { color: var(--green-1); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+
+        /* CTA */
+        .cta-section { padding: 80px 5%; text-align: center; background: radial-gradient(ellipse at center, rgba(0,255,65,0.04), transparent 70%), var(--bg-secondary); }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-dim); margin-bottom: 2rem; }
+
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+        .footer-col h4 { color: var(--green-1); font-size: 1rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .footer-col p, .footer-col a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.9; display: block; }
+        .footer-col a:hover { color: var(--green-1); }
+        .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(0,255,65,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--green-1); font-size: 0.8rem; transition: 0.3s; }
+        .footer-social a:hover { background: var(--green-1); color: var(--bg-dark); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(10,10,10,0.97); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(0,255,65,0.15); }
+            .nav-links.open { display: flex; }
+            .page-header h1 { font-size: 2rem; }
+            .story-grid { grid-template-columns: 1fr; }
+            .values-grid, .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">&#9881; Смарт Еър</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html" class="active">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="page-header">
+        <div class="tag">// за компанията</div>
+        <h1>Иновации в <span class="glow">Климатизацията</span></h1>
+        <p>Екип от инженери, посветени на интелигентни климатични решения от 2015 година.</p>
+    </section>
+
+    <section class="story">
+        <div class="story-grid">
+            <div class="story-img">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800" alt="Умен дом технологии">
+            </div>
+            <div class="story-text">
+                <h2>Нашата <span class="glow">история</span></h2>
+                <p>Смарт Еър е основана през 2015 година във Варна с ясна визия - да направим климатизацията интелигентна, ефективна и достъпна. Започнахме като малък екип от трима инженери, увлечени по IoT технологиите и тяхното приложение в HVAC индустрията.</p>
+                <p>Днес сме водеща компания в региона с екип от 25+ специалисти, които проектират, монтират и поддържат умни климатични системи за жилищни и търговски обекти.</p>
+                <div class="highlight">> Мисия: Да интегрираме най-новите технологии в климатизацията за максимален комфорт и минимален екологичен отпечатък.</div>
+                <p>Работим с водещи световни марки и прилагаме AI-базирани алгоритми за оптимизация на енергийното потребление. Всяка наша инсталация е проектирана за бъдещето.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item"><div class="num">2015</div><div class="label">Година на основаване</div></div>
+            <div class="stat-item"><div class="num">25+</div><div class="label">Инженери в екипа</div></div>
+            <div class="stat-item"><div class="num">2000+</div><div class="label">Проекта</div></div>
+            <div class="stat-item"><div class="num">98%</div><div class="label">Доволни клиенти</div></div>
+        </div>
+    </section>
+
+    <section class="values">
+        <div class="values-title">
+            <h2>Нашите <span class="glow">ценности</span></h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="icon">&#128161;</div>
+                <h3>Иновации</h3>
+                <p>Непрекъснато внедряваме нови технологии и решения за умен климат.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">&#9889;</div>
+                <h3>Ефективност</h3>
+                <p>Оптимизираме всяка система за минимално потребление на енергия.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">&#128274;</div>
+                <h3>Надеждност</h3>
+                <p>Гарантираме безотказна работа с 24/7 мониторинг и поддръжка.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">&#127793;</div>
+                <h3>Екологичност</h3>
+                <p>Използваме еко-хладилни агенти и енергийно ефективни решения.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team">
+        <div class="team-title">
+            <h2>Нашият <span class="glow">екип</span></h2>
+            <p>Професионалисти с опит в HVAC и IoT технологиите</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="avatar">ИП</div>
+                <h3>Иван Петров</h3>
+                <p>// главен инженер</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar">МД</div>
+                <h3>Мария Димитрова</h3>
+                <p>// IoT архитект</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar">ГС</div>
+                <h3>Георги Стоянов</h3>
+                <p>// сервизен мениджър</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Готови за <span class="glow">умно</span> решение?</h2>
+        <p>Свържете се с нашия екип за безплатна консултация.</p>
+        <a href="contact.html" class="btn-glow">Свържете се с нас</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>// Смарт Еър</h4>
+                <p>Интелигентни климатични решения за дома и офиса. Вашият партньор за умен комфорт във Варна и региона.</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Контакти</h4>
+                <a href="tel:+359888123456">+359 888 123 456</a>
+                <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                <p>бул. Княз Борис I 78, Варна 9000</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Социални мрежи</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">in</a>
+                    <a href="#" aria-label="LinkedIn">li</a>
+                    <a href="#" aria-label="YouTube">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Смарт Еър. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

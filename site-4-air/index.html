@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еър Брийз | Начало</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Floating animation */
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes driftCloud { 0% { transform: translateX(-100px); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateX(calc(100vw + 100px)); opacity: 0; } }
+
+        /* Nav */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(135,206,235,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: 'Quicksand', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4fc3f7; }
+        .logo span { color: #87ceeb; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; color: #555; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #4fc3f7; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: #4fc3f7; border-radius: 3px; transition: 0.3s; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #e0f4ff 0%, #b3e5fc 40%, #87ceeb 100%); position: relative; overflow: hidden; padding: 100px 20px 60px; }
+        .hero::before { content: ''; position: absolute; top: 20%; left: -80px; width: 250px; height: 80px; background: rgba(255,255,255,0.35); border-radius: 50%; animation: driftCloud 18s linear infinite; }
+        .hero::after { content: ''; position: absolute; top: 40%; left: -120px; width: 180px; height: 60px; background: rgba(255,255,255,0.25); border-radius: 50%; animation: driftCloud 25s linear infinite 5s; }
+        .hero-content { position: relative; z-index: 2; animation: fadeInUp 1s ease; }
+        .hero-content h1 { font-size: 3.2rem; color: #fff; margin-bottom: 20px; text-shadow: 0 2px 15px rgba(79,195,247,0.3); }
+        .hero-content p { font-size: 1.3rem; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 35px; line-height: 1.7; }
+        .btn-primary { display: inline-block; padding: 15px 40px; background: #fff; color: #4fc3f7; font-weight: 700; font-size: 1.1rem; border-radius: 50px; box-shadow: 0 8px 30px rgba(79,195,247,0.25); transition: all 0.3s; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(79,195,247,0.35); }
+        .hero-image { margin-top: 40px; }
+        .hero-image img { width: 100%; max-width: 500px; border-radius: 20px; box-shadow: 0 20px 60px rgba(79,195,247,0.2); animation: float 5s ease-in-out infinite; }
+
+        /* Features */
+        .features { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.2rem; color: #333; margin-bottom: 15px; }
+        .section-subtitle { text-align: center; color: #777; font-size: 1.1rem; margin-bottom: 60px; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; }
+        .feature-card { background: #fff; border-radius: 20px; padding: 45px 30px; text-align: center; box-shadow: 0 8px 35px rgba(135,206,235,0.12); transition: all 0.4s; animation: fadeInUp 0.8s ease backwards; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.4s; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 15px 50px rgba(135,206,235,0.2); }
+        .feature-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #b3e5fc, #4fc3f7); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 2rem; }
+        .feature-card h3 { font-size: 1.4rem; color: #333; margin-bottom: 12px; }
+        .feature-card p { color: #777; line-height: 1.7; }
+
+        /* Why Us */
+        .why-us { padding: 80px 20px; background: linear-gradient(180deg, #f8f9fa, #e8f6fd); }
+        .why-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .why-image img { width: 100%; border-radius: 20px; box-shadow: 0 15px 45px rgba(135,206,235,0.15); }
+        .why-text h2 { font-size: 2rem; color: #333; margin-bottom: 20px; }
+        .why-text p { color: #666; line-height: 1.8; margin-bottom: 25px; }
+        .why-list { list-style: none; }
+        .why-list li { padding: 10px 0; color: #555; font-size: 1.05rem; }
+        .why-list li::before { content: "\2713"; color: #4fc3f7; font-weight: 700; margin-right: 12px; }
+
+        /* CTA */
+        .cta-section { padding: 80px 20px; text-align: center; background: linear-gradient(135deg, #4fc3f7, #87ceeb); }
+        .cta-section h2 { font-size: 2.2rem; color: #fff; margin-bottom: 15px; }
+        .cta-section p { color: rgba(255,255,255,0.9); font-size: 1.15rem; margin-bottom: 30px; }
+        .btn-white { display: inline-block; padding: 15px 40px; background: #fff; color: #4fc3f7; font-weight: 700; border-radius: 50px; font-size: 1.1rem; transition: all 0.3s; }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        /* Footer */
+        footer { background: #1a3a4a; color: #ccc; padding: 60px 20px 30px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Quicksand', sans-serif; color: #4fc3f7; margin-bottom: 18px; font-size: 1.2rem; }
+        .footer-col p, .footer-col a { color: #aaa; line-height: 2; display: block; transition: color 0.3s; }
+        .footer-col a:hover { color: #4fc3f7; }
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(79,195,247,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4fc3f7; font-weight: 700; transition: all 0.3s; }
+        .social-links a:hover { background: #4fc3f7; color: #fff; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; color: #777; max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px 30px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .why-container { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Еър <span>Брийз</span></a>
+            <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Свежият въздух е нашата мисия</h1>
+            <p>Създаваме перфектния микроклимат за вашия дом и офис. Дишайте свободно с Еър Брийз.</p>
+            <a href="contact.html" class="btn-primary">Заяви безплатен оглед</a>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=700&q=80" alt="Чисто небе и свеж въздух">
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Защо да изберете нас?</h2>
+        <p class="section-subtitle">Предоставяме пълен набор от климатични решения за вашия комфорт</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#x1F32C;</div>
+                <h3>Чист въздух</h3>
+                <p>Модерни системи за пречистване и филтрация на въздуха, които осигуряват здравословна среда за цялото семейство.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x1F3E0;</div>
+                <h3>Комфорт</h3>
+                <p>Идеална температура и влажност през всеки сезон. Интелигентни климатични решения за максимален комфорт.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x26A1;</div>
+                <h3>Енергоспестяване</h3>
+                <p>Енергийно ефективни системи от клас А+++, които намаляват сметките ви за ток до 60%.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="why-container">
+            <div class="why-image">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80" alt="Климатична система">
+            </div>
+            <div class="why-text">
+                <h2>Повече от 10 години опит в климатичните решения</h2>
+                <p>От 2012 година Еър Брийз е водещ доставчик на климатични системи в Бургас и региона. Нашият екип от сертифицирани специалисти гарантира качество и надеждност.</p>
+                <ul class="why-list">
+                    <li>Над 3000 успешни инсталации</li>
+                    <li>Гаранционно и извънгаранционно обслужване</li>
+                    <li>Безплатен оглед и консултация</li>
+                    <li>Оторизиран партньор на водещи марки</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding:60px 20px;background:#e8f6fd;text-align:center;">
+        <h2 class="section-title">Нашите числа</h2>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:25px;max-width:900px;margin:30px auto 0;">
+            <div>
+                <div style="font-family:'Quicksand',sans-serif;font-size:2.5rem;font-weight:700;color:#4fc3f7;">3000+</div>
+                <div style="color:#777;">Инсталации</div>
+            </div>
+            <div>
+                <div style="font-family:'Quicksand',sans-serif;font-size:2.5rem;font-weight:700;color:#4fc3f7;">12+</div>
+                <div style="color:#777;">Години</div>
+            </div>
+            <div>
+                <div style="font-family:'Quicksand',sans-serif;font-size:2.5rem;font-weight:700;color:#4fc3f7;">99%</div>
+                <div style="color:#777;">Доволни клиенти</div>
+            </div>
+            <div>
+                <div style="font-family:'Quicksand',sans-serif;font-size:2.5rem;font-weight:700;color:#4fc3f7;">24/7</div>
+                <div style="color:#777;">Поддръжка</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Готови ли сте за перфектния климат?</h2>
+        <p>Свържете се с нас за безплатна консултация и оферта</p>
+        <a href="contact.html" class="btn-white">Свържете се с нас</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Еър Брийз</h4>
+                <p>Вашият надежден партньор за климатични решения в Бургас и региона. Комфорт и свеж въздух за вашия дом.</p>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">ig</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>ул. Александровска 78, Бургас 8000</p>
+                <p>+359 56 812 345</p>
+                <p>info@airbreeze.bg</p>
+                <p>Пон - Пет: 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Еър Брийз. Всички права запазени.</p>
+        </div>
+    </footer>
+</body>
+</html>

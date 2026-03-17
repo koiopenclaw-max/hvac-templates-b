@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Марки | Смарт Еър</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-dark: #0a0a0a; --bg-secondary: #1a1a2e; --green-1: #00ff41; --green-2: #39ff14; --green-3: #00e676; --text: #e0e0e0; --text-dim: #888; }
+        body { font-family: 'Exo 2', sans-serif; background: var(--bg-dark); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,255,65,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.5), 0 0 30px rgba(0,255,65,0.2); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.95rem; color: var(--text); transition: color 0.3s, text-shadow 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--green-1); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 2px; background: var(--green-1); transition: 0.3s; }
+
+        .glow { color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.4); }
+
+        .page-header { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at 50% 30%, rgba(0,255,65,0.04), transparent 60%), var(--bg-dark); }
+        .page-header .tag { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; opacity: 0.7; }
+        .page-header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* BRANDS */
+        .brands { padding: 80px 5%; background: var(--bg-secondary); }
+        .brands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .brand-card { background: rgba(10,10,10,0.7); border: 1px solid rgba(0,255,65,0.12); border-radius: 8px; overflow: hidden; transition: 0.4s; }
+        .brand-card:hover { border-color: rgba(0,255,65,0.4); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,255,65,0.08); }
+        .brand-img { width: 100%; height: 200px; object-fit: cover; filter: brightness(0.7) saturate(0.8); transition: 0.4s; }
+        .brand-card:hover .brand-img { filter: brightness(0.85) saturate(1); }
+        .brand-body { padding: 2rem; }
+        .brand-name { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--green-1); margin-bottom: 0.3rem; }
+        .brand-origin { color: var(--text-dim); font-size: 0.8rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .brand-body p { color: var(--text-dim); font-size: 0.93rem; line-height: 1.7; margin-bottom: 1.2rem; }
+        .smart-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .smart-tag { padding: 4px 12px; background: rgba(0,255,65,0.06); border: 1px solid rgba(0,255,65,0.15); border-radius: 3px; font-size: 0.78rem; color: var(--green-1); font-family: 'JetBrains Mono', monospace; }
+
+        /* WHY BRANDS */
+        .why-brands { padding: 80px 5%; background: var(--bg-dark); }
+        .why-title { text-align: center; margin-bottom: 3rem; }
+        .why-title h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .why-title p { color: var(--text-dim); }
+        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+        .why-card { text-align: center; padding: 2rem 1.5rem; background: rgba(26,26,46,0.4); border: 1px solid rgba(0,255,65,0.08); border-radius: 8px; transition: 0.3s; }
+        .why-card:hover { border-color: rgba(0,255,65,0.25); }
+        .why-card .icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .why-card h3 { font-size: 1rem; color: var(--green-1); margin-bottom: 0.5rem; }
+        .why-card p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; }
+
+        /* CTA */
+        .cta-section { padding: 80px 5%; text-align: center; background: radial-gradient(ellipse at center, rgba(0,255,65,0.04), transparent 70%), var(--bg-secondary); }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-dim); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn-glow { display: inline-block; padding: 14px 36px; background: var(--green-1); border: 1px solid var(--green-1); color: var(--bg-dark); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .btn-glow:hover { background: var(--green-2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
+
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+        .footer-col h4 { color: var(--green-1); font-size: 1rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .footer-col p, .footer-col a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.9; display: block; }
+        .footer-col a:hover { color: var(--green-1); }
+        .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(0,255,65,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--green-1); font-size: 0.8rem; transition: 0.3s; }
+        .footer-social a:hover { background: var(--green-1); color: var(--bg-dark); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(10,10,10,0.97); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(0,255,65,0.15); }
+            .nav-links.open { display: flex; }
+            .page-header h1 { font-size: 2rem; }
+            .brands-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">&#9881; Смарт Еър</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html" class="active">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="page-header">
+        <div class="tag">// партньорски марки</div>
+        <h1>Марки с <span class="glow">Умни</span> Технологии</h1>
+        <p>Работим само с водещи производители, които поддържат IoT интеграция и интелигентно управление.</p>
+    </section>
+
+    <section class="brands">
+        <div class="brands-grid">
+            <div class="brand-card">
+                <img src="https://images.unsplash.com/photo-1631545806609-05437c0ab3a4?w=600" alt="Daikin" class="brand-img">
+                <div class="brand-body">
+                    <div class="brand-name">Daikin</div>
+                    <div class="brand-origin">// Япония | est. 1924</div>
+                    <p>Световен лидер в климатизацията с пионерска Daikin Onecta платформа за интелигентно управление. Инверторни технологии с енергиен клас A+++ и вграден Wi-Fi.</p>
+                    <div class="smart-tags">
+                        <span class="smart-tag">Onecta App</span>
+                        <span class="smart-tag">Wi-Fi</span>
+                        <span class="smart-tag">A+++</span>
+                        <span class="smart-tag">R-32</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600" alt="Mitsubishi Electric" class="brand-img">
+                <div class="brand-body">
+                    <div class="brand-name">Mitsubishi Electric</div>
+                    <div class="brand-origin">// Япония | est. 1921</div>
+                    <p>Премиум климатични системи с MELCloud платформа за пълно отдалечено управление. 3D i-See сензор за автоматично насочване на въздушния поток.</p>
+                    <div class="smart-tags">
+                        <span class="smart-tag">MELCloud</span>
+                        <span class="smart-tag">3D i-See</span>
+                        <span class="smart-tag">AI режим</span>
+                        <span class="smart-tag">Plasma Quad</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600" alt="Toshiba" class="brand-img">
+                <div class="brand-body">
+                    <div class="brand-name">Toshiba</div>
+                    <div class="brand-origin">// Япония | est. 1875</div>
+                    <p>Toshiba Home AC Control за дистанционно управление и мониторинг. Иновативна Ultra Pure филтрация и тих режим на работа до 19 dB.</p>
+                    <div class="smart-tags">
+                        <span class="smart-tag">Home AC App</span>
+                        <span class="smart-tag">Ultra Pure</span>
+                        <span class="smart-tag">19 dB</span>
+                        <span class="smart-tag">Eco режим</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600" alt="Fujitsu" class="brand-img">
+                <div class="brand-body">
+                    <div class="brand-name">Fujitsu</div>
+                    <div class="brand-origin">// Япония | est. 1936</div>
+                    <p>FGLair приложение за умно управление от всяка точка. Човешки сензор за автоматично регулиране и минимално потребление при отсъствие.</p>
+                    <div class="smart-tags">
+                        <span class="smart-tag">FGLair</span>
+                        <span class="smart-tag">Човешки сензор</span>
+                        <span class="smart-tag">Auto Swing</span>
+                        <span class="smart-tag">10YR Компресор</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600" alt="Midea" class="brand-img">
+                <div class="brand-body">
+                    <div class="brand-name">Midea</div>
+                    <div class="brand-origin">// Китай | est. 1968</div>
+                    <p>MSmartHome екосистема с AI управление и гласов контрол. Отлично съотношение цена-качество с пълна умна функционалност и съвместимост с Alexa и Google.</p>
+                    <div class="smart-tags">
+                        <span class="smart-tag">MSmartHome</span>
+                        <span class="smart-tag">Alexa</span>
+                        <span class="smart-tag">Google Home</span>
+                        <span class="smart-tag">iECO режим</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-brands">
+        <div class="why-title">
+            <h2>Защо тези <span class="glow">марки</span>?</h2>
+            <p>Избираме партньори, които споделят нашата визия за умен климат</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="icon">&#128225;</div>
+                <h3>IoT Готовност</h3>
+                <p>Всички марки поддържат Wi-Fi свързаност и мобилно управление от фабриката.</p>
+            </div>
+            <div class="why-card">
+                <div class="icon">&#9889;</div>
+                <h3>Енергийна Ефективност</h3>
+                <p>Инверторни компресори с клас A+++ за минимално потребление на енергия.</p>
+            </div>
+            <div class="why-card">
+                <div class="icon">&#128274;</div>
+                <h3>Гаранция и Поддръжка</h3>
+                <p>Оторизиран сервиз с оригинални части и разширена гаранция до 7 години.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Изберете <span class="glow">правилната</span> марка</h2>
+        <p>Консултирайте се с нашите специалисти за оптималния избор за вашия обект.</p>
+        <a href="contact.html" class="btn-glow">Безплатна консултация</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>// Смарт Еър</h4>
+                <p>Интелигентни климатични решения за дома и офиса. Вашият партньор за умен комфорт във Варна и региона.</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Контакти</h4>
+                <a href="tel:+359888123456">+359 888 123 456</a>
+                <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                <p>бул. Княз Борис I 78, Варна 9000</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Социални мрежи</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">in</a>
+                    <a href="#" aria-label="LinkedIn">li</a>
+                    <a href="#" aria-label="YouTube">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Смарт Еър. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еър Брийз | За нас</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(135,206,235,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: 'Quicksand', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4fc3f7; }
+        .logo span { color: #87ceeb; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; color: #555; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #4fc3f7; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: #4fc3f7; border-radius: 3px; transition: 0.3s; }
+
+        .page-hero { padding: 140px 20px 80px; text-align: center; background: linear-gradient(135deg, #e0f4ff 0%, #b3e5fc 50%, #87ceeb 100%); position: relative; overflow: hidden; }
+        .page-hero::before { content: ''; position: absolute; top: 30%; right: 10%; width: 200px; height: 70px; background: rgba(255,255,255,0.25); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        .page-hero h1 { font-size: 2.8rem; color: #fff; margin-bottom: 15px; text-shadow: 0 2px 12px rgba(79,195,247,0.3); }
+        .page-hero p { color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 550px; margin: 0 auto; }
+
+        .story-section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .story-image img { width: 100%; border-radius: 20px; box-shadow: 0 15px 45px rgba(135,206,235,0.15); }
+        .story-text h2 { font-size: 2rem; color: #333; margin-bottom: 18px; }
+        .story-text p { color: #666; line-height: 1.85; margin-bottom: 18px; }
+
+        .values-section { padding: 80px 20px; background: linear-gradient(180deg, #f8f9fa, #e8f6fd); }
+        .values-container { max-width: 1100px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.2rem; color: #333; margin-bottom: 15px; }
+        .section-subtitle { text-align: center; color: #777; font-size: 1.1rem; margin-bottom: 50px; }
+        .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .value-card { background: #fff; border-radius: 20px; padding: 40px 25px; text-align: center; box-shadow: 0 8px 30px rgba(135,206,235,0.1); transition: all 0.4s; animation: fadeInUp 0.8s ease backwards; }
+        .value-card:nth-child(2) { animation-delay: 0.15s; }
+        .value-card:nth-child(3) { animation-delay: 0.3s; }
+        .value-card:hover { transform: translateY(-6px); box-shadow: 0 15px 45px rgba(135,206,235,0.18); }
+        .value-icon { width: 70px; height: 70px; background: linear-gradient(135deg, #b3e5fc, #4fc3f7); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.8rem; color: #fff; }
+        .value-card h3 { font-size: 1.3rem; color: #333; margin-bottom: 10px; }
+        .value-card p { color: #777; line-height: 1.7; }
+
+        .stats-section { padding: 80px 20px; }
+        .stats-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
+        .stat-item { background: #fff; border-radius: 18px; padding: 35px 15px; box-shadow: 0 6px 25px rgba(135,206,235,0.1); }
+        .stat-number { font-family: 'Quicksand', sans-serif; font-size: 2.6rem; font-weight: 700; color: #4fc3f7; }
+        .stat-label { color: #777; margin-top: 8px; font-size: 0.95rem; }
+
+        .team-section { padding: 80px 20px; background: linear-gradient(180deg, #e8f6fd, #f8f9fa); }
+        .team-container { max-width: 1100px; margin: 0 auto; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; }
+        .team-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px rgba(135,206,235,0.1); transition: all 0.4s; }
+        .team-card:hover { transform: translateY(-5px); }
+        .team-card img { width: 100%; height: 250px; object-fit: cover; }
+        .team-info { padding: 25px; text-align: center; }
+        .team-info h3 { font-size: 1.2rem; color: #333; margin-bottom: 5px; }
+        .team-info p { color: #4fc3f7; font-weight: 600; }
+
+        footer { background: #1a3a4a; color: #ccc; padding: 60px 20px 30px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Quicksand', sans-serif; color: #4fc3f7; margin-bottom: 18px; font-size: 1.2rem; }
+        .footer-col p, .footer-col a { color: #aaa; line-height: 2; display: block; transition: color 0.3s; }
+        .footer-col a:hover { color: #4fc3f7; }
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(79,195,247,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4fc3f7; font-weight: 700; transition: all 0.3s; }
+        .social-links a:hover { background: #4fc3f7; color: #fff; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; color: #777; max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px 30px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .page-hero h1 { font-size: 2rem; }
+            .story-section { grid-template-columns: 1fr; }
+            .values-grid, .team-grid { grid-template-columns: 1fr; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Еър <span>Брийз</span></a>
+            <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html" class="active">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>За нас</h1>
+        <p>Историята на Еър Брийз - повече от десетилетие свеж въздух и комфорт за Бургас</p>
+    </section>
+
+    <section class="story-section">
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Офис на Еър Брийз">
+        </div>
+        <div class="story-text">
+            <h2>Нашата история</h2>
+            <p>Еър Брийз е основана през 2012 година в красивия крайморски град Бургас. Вдъхновени от чистия морски бриз и желанието да подобрим качеството на въздуха в домовете и офисите, ние започнахме с малък екип от двама специалисти.</p>
+            <p>Днес сме водещ доставчик на климатични решения в Югоизточна България. Нашият екип от над 20 сертифицирани техници обслужва хиляди доволни клиенти в целия регион.</p>
+            <p>Разположени в крайбрежния Бургас, ние разбираме специфичните климатични предизвикателства на региона - горещите лета, влажния въздух и нуждата от надеждни системи за целогодишен комфорт.</p>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="values-container">
+            <h2 class="section-title">Нашите ценности</h2>
+            <p class="section-subtitle">Принципите, които ни водят всеки ден</p>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">&#x1F33F;</div>
+                    <h3>Природа</h3>
+                    <p>Вярваме в хармонията с природата. Използваме екологични хладилни агенти и енергийно ефективни технологии за по-зелено бъдеще.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">&#x2764;</div>
+                    <h3>Здраве</h3>
+                    <p>Здравето на нашите клиенти е приоритет. Осигуряваме чист, филтриран въздух, свободен от алергени и замърсители.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">&#x2600;</div>
+                    <h3>Комфорт</h3>
+                    <p>Стремим се към перфектния баланс между температура, влажност и качество на въздуха за абсолютен комфорт.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Години опит</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3000+</div>
+                <div class="stat-label">Инсталации</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">Техници</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Доволни клиенти</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="team-container">
+            <h2 class="section-title">Нашият екип</h2>
+            <p class="section-subtitle">Професионалистите зад Еър Брийз</p>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Георги Петров">
+                    <div class="team-info">
+                        <h3>Георги Петров</h3>
+                        <p>Управител</p>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Мария Иванова">
+                    <div class="team-info">
+                        <h3>Мария Иванова</h3>
+                        <p>Технически директор</p>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Димитър Стоянов">
+                    <div class="team-info">
+                        <h3>Димитър Стоянов</h3>
+                        <p>Главен техник</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Еър Брийз</h4>
+                <p>Вашият надежден партньор за климатични решения в Бургас и региона. Комфорт и свеж въздух за вашия дом.</p>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">ig</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>ул. Александровска 78, Бургас 8000</p>
+                <p>+359 56 812 345</p>
+                <p>info@airbreeze.bg</p>
+                <p>Пон - Пет: 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Еър Брийз. Всички права запазени.</p>
+        </div>
+    </footer>
+</body>
+</html>

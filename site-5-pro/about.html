@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>За нас — Про HVAC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --charcoal: #2d2d2d; --charcoal-mid: #333333; --charcoal-dark: #1a1a1a; --yellow: #ffd60a; --yellow-mid: #ffc107; --yellow-dark: #ffb300; --white: #f5f5f5; }
+        body { font-family: 'Roboto', sans-serif; background: var(--charcoal-dark); color: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Barlow', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(26,26,26,0.97); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 2px solid var(--yellow); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 70px; }
+        .logo { font-family: 'Barlow', sans-serif; font-weight: 900; font-size: 1.7rem; color: var(--white); }
+        .logo span { color: var(--yellow); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; color: var(--white); transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 3px; background: var(--yellow); border-radius: 2px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: var(--charcoal-dark); flex-direction: column; align-items: center; padding: 30px 0; gap: 24px; transform: translateY(-120%); transition: transform 0.4s ease; }
+            .nav-links.open { transform: translateY(0); }
+        }
+
+        /* PAGE HEADER */
+        .page-header { padding: 140px 24px 80px; text-align: center; background: linear-gradient(135deg, var(--charcoal-dark), var(--charcoal)); position: relative; }
+        .page-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
+        .page-header h1 { font-size: 3rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
+        .page-header h1 span { color: var(--yellow); }
+        .page-header p { color: #999; font-size: 1.1rem; }
+
+        /* STORY */
+        .story { padding: 80px 24px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .story-img { border-radius: 8px; overflow: hidden; position: relative; }
+        .story-img img { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; }
+        .story-img::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--yellow); border-radius: 8px; transform: translate(12px, 12px); z-index: -1; }
+        .story-text h2 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
+        .story-text h2 span { color: var(--yellow); }
+        .story-text p { color: #b0b0b0; line-height: 1.8; margin-bottom: 16px; font-size: 1rem; }
+        .year-badge { display: inline-block; background: var(--yellow); color: var(--charcoal-dark); font-family: 'Barlow', sans-serif; font-weight: 900; font-size: 1.5rem; padding: 12px 24px; border-radius: 4px; margin-bottom: 20px; }
+
+        /* STATS */
+        .stats { padding: 80px 24px; background: var(--charcoal); }
+        .stats-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .stat-card { text-align: center; padding: 40px 20px; background: var(--charcoal-dark); border: 1px solid #3a3a3a; border-radius: 8px; transition: 0.4s; }
+        .stat-card:hover { border-color: var(--yellow); transform: translateY(-5px); }
+        .stat-number { font-family: 'Barlow', sans-serif; font-size: 3rem; font-weight: 900; color: var(--yellow); margin-bottom: 8px; }
+        .stat-label { color: #999; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* CERTIFICATIONS */
+        .certs { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
+        .section-title h2 span { color: var(--yellow); }
+        .section-title p { color: #999; font-size: 1.05rem; }
+        .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .cert-card { background: var(--charcoal); border-left: 4px solid var(--yellow); padding: 30px; border-radius: 4px; transition: 0.3s; }
+        .cert-card:hover { background: var(--charcoal-mid); transform: translateX(5px); }
+        .cert-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--yellow); }
+        .cert-card p { color: #999; font-size: 0.9rem; line-height: 1.7; }
+
+        /* TEAM */
+        .team { padding: 80px 24px; background: var(--charcoal); }
+        .team-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .team-card { background: var(--charcoal-dark); border-radius: 8px; overflow: hidden; border: 1px solid #3a3a3a; transition: 0.4s; }
+        .team-card:hover { border-color: var(--yellow); transform: translateY(-5px); }
+        .team-card img { width: 100%; height: 260px; object-fit: cover; }
+        .team-info { padding: 24px; text-align: center; }
+        .team-info h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .team-info p { color: var(--yellow); font-size: 0.9rem; font-weight: 500; }
+
+        @media (max-width: 768px) {
+            .story { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .certs-grid, .team-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2rem; }
+        }
+
+        /* ANIMATIONS */
+        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .fade-in:nth-child(2) { animation-delay: 0.15s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.45s; }
+
+        footer { background: var(--charcoal-dark); border-top: 2px solid var(--yellow); padding: 60px 24px 30px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--yellow); margin-bottom: 16px; text-transform: uppercase; }
+        .footer-col p, .footer-col a { color: #999; font-size: 0.9rem; line-height: 2; display: block; }
+        .footer-col a:hover { color: var(--yellow); }
+        .social-links { display: flex; gap: 12px; margin-top: 12px; }
+        .social-links a { width: 40px; height: 40px; border: 1px solid #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: 0.3s; color: #999; }
+        .social-links a:hover { border-color: var(--yellow); color: var(--yellow); }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">ПРО <span>HVAC</span></a>
+            <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html" class="active">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>За <span>нас</span></h1>
+        <p>Историята на професионализма и надеждността</p>
+    </section>
+
+    <section class="story">
+        <div class="story-img">
+            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop" alt="Про HVAC екип">
+        </div>
+        <div class="story-text">
+            <div class="year-badge">От 2005 г.</div>
+            <h2>Нашата <span>история</span></h2>
+            <p>Про HVAC е основана през 2005 година в Стара Загора с мисията да предоставя индустриален клас климатични решения за жилищни и търговски обекти.</p>
+            <p>Започнахме като малък екип от двама техници с визия за професионално обслужване. Днес сме водеща компания в региона с екип от над 25 сертифицирани специалисти, изпълнили повече от 3000 проекта.</p>
+            <p>Нашият подход съчетава техническа експертиза с персонално отношение към всеки клиент, независимо от мащаба на проекта.</p>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card fade-in">
+                <div class="stat-number">3000+</div>
+                <div class="stat-label">Изпълнени проекта</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">19</div>
+                <div class="stat-label">Години опит</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Специалисти</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Доволни клиенти</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="certs">
+        <div class="section-title">
+            <h2>Сертификати и <span>квалификации</span></h2>
+            <p>Гарантирано качество, потвърдено от водещи организации</p>
+        </div>
+        <div class="certs-grid">
+            <div class="cert-card fade-in">
+                <h3>ISO 9001:2015</h3>
+                <p>Сертифицирана система за управление на качеството в проектирането и монтажа на HVAC системи.</p>
+            </div>
+            <div class="cert-card fade-in">
+                <h3>F-газ сертификация</h3>
+                <p>Лицензирани техници за работа с флуорирани парникови газове, съгласно европейските регулации.</p>
+            </div>
+            <div class="cert-card fade-in">
+                <h3>Оторизиран партньор</h3>
+                <p>Официален оторизиран партньор на Daikin, Mitsubishi Electric и Toshiba за България.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team">
+        <div class="section-title">
+            <h2>Нашият <span>екип</span></h2>
+            <p>Професионалисти, на които можете да разчитате</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=300&fit=crop" alt="Георги Петров">
+                <div class="team-info">
+                    <h3>Георги Петров</h3>
+                    <p>Управител и главен инженер</p>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=300&fit=crop" alt="Димитър Иванов">
+                <div class="team-info">
+                    <h3>Димитър Иванов</h3>
+                    <p>Технически директор</p>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=300&fit=crop" alt="Мария Стоянова">
+                <div class="team-info">
+                    <h3>Мария Стоянова</h3>
+                    <p>Мениджър обслужване на клиенти</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Про HVAC</h4>
+                <p>Професионални климатични решения за вашия дом и бизнес. Качество и надеждност от 2005 година.</p>
+                <div class="social-links">
+                    <a href="#">Fb</a><a href="#">In</a><a href="#">Yt</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>&#9742; +359 42 123 456</p>
+                <p>&#9993; info@prohvac.bg</p>
+                <p>&#9906; ул. Индустриална 28, Стара Загора, България</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a><a href="about.html">За нас</a><a href="services.html">Услуги</a><a href="brands.html">Марки</a><a href="contact.html">Контакти</a>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Про HVAC. Всички права запазени. Стара Загора, България.</div>
+    </footer>
+</body>
+</html>

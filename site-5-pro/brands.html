@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Марки — Про HVAC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --charcoal: #2d2d2d; --charcoal-mid: #333333; --charcoal-dark: #1a1a1a; --yellow: #ffd60a; --yellow-mid: #ffc107; --yellow-dark: #ffb300; --white: #f5f5f5; }
+        body { font-family: 'Roboto', sans-serif; background: var(--charcoal-dark); color: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Barlow', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(26,26,26,0.97); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 2px solid var(--yellow); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 70px; }
+        .logo { font-family: 'Barlow', sans-serif; font-weight: 900; font-size: 1.7rem; color: var(--white); }
+        .logo span { color: var(--yellow); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; color: var(--white); transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 3px; background: var(--yellow); border-radius: 2px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: var(--charcoal-dark); flex-direction: column; align-items: center; padding: 30px 0; gap: 24px; transform: translateY(-120%); transition: transform 0.4s ease; }
+            .nav-links.open { transform: translateY(0); }
+        }
+
+        .page-header { padding: 140px 24px 80px; text-align: center; background: linear-gradient(135deg, var(--charcoal-dark), var(--charcoal)); position: relative; }
+        .page-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
+        .page-header h1 { font-size: 3rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
+        .page-header h1 span { color: var(--yellow); }
+        .page-header p { color: #999; font-size: 1.1rem; }
+
+        /* BRANDS INTRO */
+        .brands-intro { padding: 60px 24px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .brands-intro p { color: #b0b0b0; font-size: 1.05rem; line-height: 1.8; }
+
+        /* BRANDS GRID */
+        .brands { padding: 20px 24px 80px; max-width: 1200px; margin: 0 auto; }
+        .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .brand-card { background: var(--charcoal); border: 1px solid #3a3a3a; border-radius: 8px; padding: 40px 30px; text-align: center; transition: all 0.4s; position: relative; overflow: hidden; }
+        .brand-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--yellow); transform: scaleX(0); transition: transform 0.4s; }
+        .brand-card:hover { border-color: var(--yellow); transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+        .brand-card:hover::after { transform: scaleX(1); }
+        .brand-logo-wrap { width: 100px; height: 100px; background: rgba(255,214,10,0.08); border: 2px solid #3a3a3a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; transition: 0.4s; }
+        .brand-card:hover .brand-logo-wrap { border-color: var(--yellow); background: rgba(255,214,10,0.15); }
+        .brand-letter { font-family: 'Barlow', sans-serif; font-weight: 900; font-size: 2.5rem; color: var(--yellow); }
+        .brand-card h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .brand-card .brand-origin { color: var(--yellow); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+        .brand-card p { color: #999; line-height: 1.7; font-size: 0.9rem; margin-bottom: 16px; }
+        .brand-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .brand-tag { background: rgba(255,214,10,0.1); border: 1px solid rgba(255,214,10,0.3); color: var(--yellow); font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+
+        /* FULL WIDTH CARDS */
+        .brand-card-wide { grid-column: span 2; display: grid; grid-template-columns: auto 1fr; gap: 30px; text-align: left; align-items: center; }
+        .brand-card-wide .brand-logo-wrap { margin: 0; }
+        .brand-card-wide .brand-tags { justify-content: flex-start; }
+
+        /* PARTNER BANNER */
+        .partner-banner { padding: 80px 24px; background: var(--charcoal); text-align: center; position: relative; }
+        .partner-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
+        .partner-banner h2 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; }
+        .partner-banner h2 span { color: var(--yellow); }
+        .partner-banner p { color: #999; font-size: 1.05rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn { display: inline-block; padding: 16px 40px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; border: none; cursor: pointer; transition: all 0.3s; border-radius: 4px; }
+        .btn-yellow { background: var(--yellow); color: var(--charcoal-dark); }
+        .btn-yellow:hover { background: var(--yellow-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,214,10,0.3); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeUp 0.7s ease forwards; }
+        .fade-in:nth-child(2) { animation-delay: 0.12s; }
+        .fade-in:nth-child(3) { animation-delay: 0.24s; }
+        .fade-in:nth-child(4) { animation-delay: 0.36s; }
+        .fade-in:nth-child(5) { animation-delay: 0.48s; }
+
+        @media (max-width: 768px) {
+            .brands-grid { grid-template-columns: 1fr; }
+            .brand-card-wide { grid-column: span 1; grid-template-columns: 1fr; text-align: center; }
+            .brand-card-wide .brand-logo-wrap { margin: 0 auto; }
+            .brand-card-wide .brand-tags { justify-content: center; }
+            .page-header h1 { font-size: 2rem; }
+        }
+
+        footer { background: var(--charcoal-dark); border-top: 2px solid var(--yellow); padding: 60px 24px 30px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--yellow); margin-bottom: 16px; text-transform: uppercase; }
+        .footer-col p, .footer-col a { color: #999; font-size: 0.9rem; line-height: 2; display: block; }
+        .footer-col a:hover { color: var(--yellow); }
+        .social-links { display: flex; gap: 12px; margin-top: 12px; }
+        .social-links a { width: 40px; height: 40px; border: 1px solid #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: 0.3s; color: #999; }
+        .social-links a:hover { border-color: var(--yellow); color: var(--yellow); }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">ПРО <span>HVAC</span></a>
+            <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html" class="active">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Партньорски <span>марки</span></h1>
+        <p>Работим само с доказани световни лидери в HVAC индустрията</p>
+    </section>
+
+    <section class="brands-intro">
+        <p>Като оторизиран дистрибутор и сервизен партньор на водещи производители, ви гарантираме достъп до най-съвременните технологии, оригинални резервни части и пълна гаранционна поддръжка.</p>
+    </section>
+
+    <section class="brands">
+        <div class="brands-grid">
+            <div class="brand-card fade-in">
+                <div class="brand-logo-wrap"><span class="brand-letter">D</span></div>
+                <h3>Daikin</h3>
+                <div class="brand-origin">Япония</div>
+                <p>Световен лидер в производството на климатични системи с над 100 години история. Иновативни решения с инверторна технология и хладилен агент R-32.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">R-32</span>
+                    <span class="brand-tag">Wi-Fi</span>
+                    <span class="brand-tag">A+++</span>
+                </div>
+            </div>
+
+            <div class="brand-card fade-in">
+                <div class="brand-logo-wrap"><span class="brand-letter">ME</span></div>
+                <h3>Mitsubishi Electric</h3>
+                <div class="brand-origin">Япония</div>
+                <p>Премиум клас климатични системи с безшумна работа и изключителна енергийна ефективност. Перфектни за жилищни и търговски приложения.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Премиум</span>
+                    <span class="brand-tag">Безшумни</span>
+                    <span class="brand-tag">3D поток</span>
+                </div>
+            </div>
+
+            <div class="brand-card fade-in">
+                <div class="brand-logo-wrap"><span class="brand-letter">T</span></div>
+                <h3>Toshiba</h3>
+                <div class="brand-origin">Япония</div>
+                <p>Пионер в инверторните технологии с отличен баланс между цена и качество. Надеждни решения за всеки тип обект с гаранция до 7 години.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">Hybrid AI</span>
+                    <span class="brand-tag">Plasma</span>
+                </div>
+            </div>
+
+            <div class="brand-card fade-in">
+                <div class="brand-logo-wrap"><span class="brand-letter">F</span></div>
+                <h3>Fujitsu</h3>
+                <div class="brand-origin">Япония</div>
+                <p>Високотехнологични климатични системи с усъвършенствана филтрация на въздуха и интелигентно управление на комфорта. Отличен избор за алергици.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">HEPA филтър</span>
+                    <span class="brand-tag">Сензори</span>
+                    <span class="brand-tag">Тих режим</span>
+                </div>
+            </div>
+
+            <div class="brand-card fade-in">
+                <div class="brand-logo-wrap"><span class="brand-letter">M</span></div>
+                <h3>Midea</h3>
+                <div class="brand-origin">Китай</div>
+                <p>Най-големият производител на климатична техника в света. Отлично съотношение цена-качество с модерен дизайн и надеждна инверторна технология.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Достъпен</span>
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">Smart</span>
+                    <span class="brand-tag">Xtreme Save</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partner-banner">
+        <h2>Нуждаете се от <span>съвет</span>?</h2>
+        <p>Нашите експерти ще ви помогнат да изберете оптималната марка и модел за вашите нужди и бюджет</p>
+        <a href="contact.html" class="btn btn-yellow">Консултация</a>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Про HVAC</h4>
+                <p>Професионални климатични решения за вашия дом и бизнес. Качество и надеждност от 2005 година.</p>
+                <div class="social-links"><a href="#">Fb</a><a href="#">In</a><a href="#">Yt</a></div>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>&#9742; +359 42 123 456</p>
+                <p>&#9993; info@prohvac.bg</p>
+                <p>&#9906; ул. Индустриална 28, Стара Загора, България</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a><a href="about.html">За нас</a><a href="services.html">Услуги</a><a href="brands.html">Марки</a><a href="contact.html">Контакти</a>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Про HVAC. Всички права запазени. Стара Загора, България.</div>
+    </footer>
+</body>
+</html>

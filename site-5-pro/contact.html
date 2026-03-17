@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти — Про HVAC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --charcoal: #2d2d2d; --charcoal-mid: #333333; --charcoal-dark: #1a1a1a; --yellow: #ffd60a; --yellow-mid: #ffc107; --yellow-dark: #ffb300; --white: #f5f5f5; }
+        body { font-family: 'Roboto', sans-serif; background: var(--charcoal-dark); color: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Barlow', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(26,26,26,0.97); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 2px solid var(--yellow); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 70px; }
+        .logo { font-family: 'Barlow', sans-serif; font-weight: 900; font-size: 1.7rem; color: var(--white); }
+        .logo span { color: var(--yellow); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; color: var(--white); transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 3px; background: var(--yellow); border-radius: 2px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: var(--charcoal-dark); flex-direction: column; align-items: center; padding: 30px 0; gap: 24px; transform: translateY(-120%); transition: transform 0.4s ease; }
+            .nav-links.open { transform: translateY(0); }
+        }
+
+        .page-header { padding: 140px 24px 80px; text-align: center; background: linear-gradient(135deg, var(--charcoal-dark), var(--charcoal)); position: relative; }
+        .page-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
+        .page-header h1 { font-size: 3rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
+        .page-header h1 span { color: var(--yellow); }
+        .page-header p { color: #999; font-size: 1.1rem; }
+
+        /* CONTACT SECTION */
+        .contact-section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+
+        /* FORM */
+        .form-wrapper { background: var(--charcoal); border: 1px solid #3a3a3a; border-radius: 8px; padding: 40px; position: relative; overflow: hidden; }
+        .form-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--yellow), var(--yellow-dark)); }
+        .form-wrapper h2 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+        .form-wrapper h2 span { color: var(--yellow); }
+        .form-wrapper > p { color: #999; font-size: 0.95rem; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--yellow); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 16px; background: var(--charcoal-dark); border: 1px solid #3a3a3a; border-radius: 4px; color: var(--white); font-family: 'Roboto', sans-serif; font-size: 0.95rem; transition: border-color 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(255,214,10,0.1); }
+        .form-group input::placeholder { color: #666; }
+        .form-group select { cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffd60a' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        .form-group select option { background: var(--charcoal-dark); color: var(--white); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn-submit { width: 100%; padding: 16px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 2px; background: var(--yellow); color: var(--charcoal-dark); border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background: var(--yellow-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,214,10,0.3); }
+
+        /* CONTACT INFO */
+        .contact-info { display: flex; flex-direction: column; gap: 24px; }
+        .info-card { background: var(--charcoal); border: 1px solid #3a3a3a; border-radius: 8px; padding: 30px; transition: 0.4s; display: flex; gap: 20px; align-items: flex-start; }
+        .info-card:hover { border-color: var(--yellow); transform: translateX(5px); }
+        .info-icon { width: 50px; height: 50px; min-width: 50px; background: rgba(255,214,10,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--yellow); }
+        .info-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
+        .info-card p { color: #999; font-size: 0.95rem; line-height: 1.7; }
+        .info-card a { color: var(--yellow); font-weight: 500; }
+
+        /* WORK HOURS */
+        .hours-table { width: 100%; margin-top: 12px; }
+        .hours-table td { padding: 6px 0; font-size: 0.9rem; color: #999; }
+        .hours-table td:last-child { text-align: right; color: var(--yellow); font-weight: 500; }
+
+        /* MAP */
+        .map-section { padding: 0 24px 80px; max-width: 1200px; margin: 0 auto; }
+        .map-wrapper { background: var(--charcoal); border: 1px solid #3a3a3a; border-radius: 8px; overflow: hidden; height: 350px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .map-placeholder { text-align: center; color: #666; }
+        .map-placeholder p { font-size: 1.1rem; margin-bottom: 8px; }
+        .map-placeholder span { color: var(--yellow); font-weight: 500; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeUp 0.7s ease forwards; }
+
+        @media (max-width: 768px) {
+            .contact-section { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2rem; }
+        }
+
+        footer { background: var(--charcoal-dark); border-top: 2px solid var(--yellow); padding: 60px 24px 30px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--yellow); margin-bottom: 16px; text-transform: uppercase; }
+        .footer-col p, .footer-col a { color: #999; font-size: 0.9rem; line-height: 2; display: block; }
+        .footer-col a:hover { color: var(--yellow); }
+        .social-links { display: flex; gap: 12px; margin-top: 12px; }
+        .social-links a { width: 40px; height: 40px; border: 1px solid #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: 0.3s; color: #999; }
+        .social-links a:hover { border-color: var(--yellow); color: var(--yellow); }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">ПРО <span>HVAC</span></a>
+            <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html" class="active">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Свържете се <span>с нас</span></h1>
+        <p>Заявете безплатен оглед или получете професионална консултация</p>
+    </section>
+
+    <section class="contact-section">
+        <div class="form-wrapper fade-in">
+            <h2>Заяви <span>оглед</span></h2>
+            <p>Попълнете формата и ще се свържем с вас до 2 часа</p>
+            <form onsubmit="event.preventDefault(); alert('Благодарим! Ще се свържем с вас скоро.');">
+                <div class="form-group">
+                    <label for="name">Име</label>
+                    <input type="text" id="name" placeholder="Вашето име и фамилия" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" placeholder="+359 88 888 8888" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Предпочитана дата</label>
+                        <input type="date" id="date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес</label>
+                    <input type="text" id="address" placeholder="Адрес на обекта">
+                </div>
+                <div class="form-group">
+                    <label for="service">Тип услуга</label>
+                    <select id="service" required>
+                        <option value="" disabled selected>Изберете услуга</option>
+                        <option value="montaj">Монтаж</option>
+                        <option value="serviz">Сервиз</option>
+                        <option value="otoplenie">Отопление</option>
+                        <option value="ventilacia">Вентилация</option>
+                        <option value="termopompi">Термопомпи</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Допълнителна информация</label>
+                    <textarea id="message" rows="4" placeholder="Опишете накратко вашите нужди..." style="resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Изпрати заявка</button>
+            </form>
+        </div>
+
+        <div class="contact-info fade-in" style="animation-delay: 0.2s;">
+            <div class="info-card">
+                <div class="info-icon">&#9742;</div>
+                <div>
+                    <h3>Телефон</h3>
+                    <p><a href="tel:+35942123456">+359 42 123 456</a></p>
+                    <p><a href="tel:+35988123456">+359 88 123 456</a></p>
+                    <p style="font-size: 0.85rem; margin-top: 4px;">Аварийна линия: 24/7</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">&#9993;</div>
+                <div>
+                    <h3>Имейл</h3>
+                    <p><a href="mailto:info@prohvac.bg">info@prohvac.bg</a></p>
+                    <p><a href="mailto:service@prohvac.bg">service@prohvac.bg</a></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">&#9906;</div>
+                <div>
+                    <h3>Адрес</h3>
+                    <p>ул. Индустриална 28<br>Стара Загора 6000<br>България</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">&#9200;</div>
+                <div>
+                    <h3>Работно време</h3>
+                    <table class="hours-table">
+                        <tr><td>Понеделник - Петък</td><td>08:00 - 18:00</td></tr>
+                        <tr><td>Събота</td><td>09:00 - 14:00</td></tr>
+                        <tr><td>Неделя</td><td>Затворено</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="map-wrapper">
+            <div class="map-placeholder">
+                <p>&#9906; <span>ул. Индустриална 28, Стара Загора</span></p>
+                <p style="font-size: 0.85rem;">Локация на Google Maps</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Про HVAC</h4>
+                <p>Професионални климатични решения за вашия дом и бизнес. Качество и надеждност от 2005 година.</p>
+                <div class="social-links"><a href="#">Fb</a><a href="#">In</a><a href="#">Yt</a></div>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>&#9742; +359 42 123 456</p>
+                <p>&#9993; info@prohvac.bg</p>
+                <p>&#9906; ул. Индустриална 28, Стара Загора, България</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a><a href="about.html">За нас</a><a href="services.html">Услуги</a><a href="brands.html">Марки</a><a href="contact.html">Контакти</a>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Про HVAC. Всички права запазени. Стара Загора, България.</div>
+    </footer>
+</body>
+</html>

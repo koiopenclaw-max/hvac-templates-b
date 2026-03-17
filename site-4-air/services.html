@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еър Брийз | Услуги</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(135,206,235,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: 'Quicksand', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4fc3f7; }
+        .logo span { color: #87ceeb; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; color: #555; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #4fc3f7; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: #4fc3f7; border-radius: 3px; transition: 0.3s; }
+
+        .page-hero { padding: 140px 20px 80px; text-align: center; background: linear-gradient(135deg, #e0f4ff 0%, #b3e5fc 50%, #87ceeb 100%); position: relative; overflow: hidden; }
+        .page-hero::before { content: ''; position: absolute; top: 25%; left: 5%; width: 180px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 7s ease-in-out infinite; }
+        .page-hero h1 { font-size: 2.8rem; color: #fff; margin-bottom: 15px; text-shadow: 0 2px 12px rgba(79,195,247,0.3); }
+        .page-hero p { color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+
+        .services-section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 35px; }
+        .service-card { background: #fff; border-radius: 22px; overflow: hidden; box-shadow: 0 8px 35px rgba(135,206,235,0.1); transition: all 0.4s; animation: fadeInUp 0.8s ease backwards; display: flex; flex-direction: column; }
+        .service-card:nth-child(2) { animation-delay: 0.1s; }
+        .service-card:nth-child(3) { animation-delay: 0.2s; }
+        .service-card:nth-child(4) { animation-delay: 0.3s; }
+        .service-card:nth-child(5) { animation-delay: 0.4s; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(135,206,235,0.2); }
+        .service-card img { width: 100%; height: 220px; object-fit: cover; }
+        .service-body { padding: 30px; flex: 1; display: flex; flex-direction: column; }
+        .service-icon { width: 55px; height: 55px; background: linear-gradient(135deg, #b3e5fc, #4fc3f7); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 18px; }
+        .service-body h3 { font-size: 1.4rem; color: #333; margin-bottom: 12px; }
+        .service-body p { color: #777; line-height: 1.75; margin-bottom: 18px; flex: 1; }
+        .service-features { list-style: none; margin-bottom: 20px; }
+        .service-features li { padding: 5px 0; color: #666; font-size: 0.95rem; }
+        .service-features li::before { content: "\2713"; color: #4fc3f7; margin-right: 10px; font-weight: 700; }
+        .btn-outline { display: inline-block; padding: 12px 28px; border: 2px solid #4fc3f7; color: #4fc3f7; border-radius: 50px; font-weight: 600; transition: all 0.3s; align-self: flex-start; }
+        .btn-outline:hover { background: #4fc3f7; color: #fff; }
+
+        .full-service { margin-top: 40px; background: #fff; border-radius: 22px; box-shadow: 0 8px 35px rgba(135,206,235,0.1); overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; }
+        .full-service img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; }
+        .full-service-body { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .full-service-body h3 { font-size: 1.5rem; color: #333; margin-bottom: 15px; }
+        .full-service-body p { color: #777; line-height: 1.75; margin-bottom: 15px; }
+
+        .cta-section { padding: 80px 20px; text-align: center; background: linear-gradient(135deg, #4fc3f7, #87ceeb); margin-top: 40px; }
+        .cta-section h2 { font-size: 2rem; color: #fff; margin-bottom: 15px; }
+        .cta-section p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 25px; }
+        .btn-white { display: inline-block; padding: 15px 40px; background: #fff; color: #4fc3f7; font-weight: 700; border-radius: 50px; font-size: 1.1rem; transition: all 0.3s; }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        footer { background: #1a3a4a; color: #ccc; padding: 60px 20px 30px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Quicksand', sans-serif; color: #4fc3f7; margin-bottom: 18px; font-size: 1.2rem; }
+        .footer-col p, .footer-col a { color: #aaa; line-height: 2; display: block; transition: color 0.3s; }
+        .footer-col a:hover { color: #4fc3f7; }
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(79,195,247,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4fc3f7; font-weight: 700; transition: all 0.3s; }
+        .social-links a:hover { background: #4fc3f7; color: #fff; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; color: #777; max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px 30px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .page-hero h1 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .full-service { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Еър <span>Брийз</span></a>
+            <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html" class="active">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Нашите услуги</h1>
+        <p>Пълен набор от климатични решения за вашия комфорт - от монтаж до сервиз и поддръжка</p>
+    </section>
+
+    <section class="services-section">
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80" alt="Монтаж на климатици">
+                <div class="service-body">
+                    <div class="service-icon">&#x2744;</div>
+                    <h3>Монтаж на климатици</h3>
+                    <p>Професионален монтаж на всички видове климатични системи за дома и офиса. Работим с водещи световни марки и гарантираме качество.</p>
+                    <ul class="service-features">
+                        <li>Безплатен оглед на обекта</li>
+                        <li>Професионален монтаж до 1 ден</li>
+                        <li>Гаранция до 5 години</li>
+                        <li>Всички марки климатици</li>
+                    </ul>
+                    <a href="contact.html" class="btn-outline">Заяви монтаж</a>
+                </div>
+            </div>
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80" alt="Сервиз и поддръжка">
+                <div class="service-body">
+                    <div class="service-icon">&#x1F527;</div>
+                    <h3>Сервиз и поддръжка</h3>
+                    <p>Регулярна поддръжка и спешен ремонт на климатични системи. Почистване, зареждане с фреон и диагностика на проблеми.</p>
+                    <ul class="service-features">
+                        <li>Профилактика и почистване</li>
+                        <li>Зареждане с фреон</li>
+                        <li>Спешен ремонт до 24 часа</li>
+                        <li>Оригинални резервни части</li>
+                    </ul>
+                    <a href="contact.html" class="btn-outline">Заяви сервиз</a>
+                </div>
+            </div>
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&q=80" alt="Отоплителни системи">
+                <div class="service-body">
+                    <div class="service-icon">&#x1F525;</div>
+                    <h3>Отоплителни системи</h3>
+                    <p>Модерни отоплителни решения за ефективно и икономично затопляне на вашия дом. Подово отопление, конвектори и радиатори.</p>
+                    <ul class="service-features">
+                        <li>Подово отопление</li>
+                        <li>Конвектори и радиатори</li>
+                        <li>Енергийно ефективни решения</li>
+                        <li>Индивидуален проект</li>
+                    </ul>
+                    <a href="contact.html" class="btn-outline">Научи повече</a>
+                </div>
+            </div>
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80" alt="Вентилационни системи">
+                <div class="service-body">
+                    <div class="service-icon">&#x1F32C;</div>
+                    <h3>Вентилационни системи</h3>
+                    <p>Проектиране и монтаж на вентилационни системи за жилищни и търговски сгради. Рекуперация на топлина и свеж въздух.</p>
+                    <ul class="service-features">
+                        <li>Приточно-смукателна вентилация</li>
+                        <li>Рекуператори на топлина</li>
+                        <li>Канални системи</li>
+                        <li>Проектиране по стандарти</li>
+                    </ul>
+                    <a href="contact.html" class="btn-outline">Научи повече</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="full-service">
+            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80" alt="Термопомпи">
+            <div class="full-service-body">
+                <div class="service-icon">&#x267B;</div>
+                <h3>Термопомпи</h3>
+                <p>Термопомпите са най-ефективният начин за отопление и охлаждане. Използвайки енергията от въздуха, водата или почвата, те осигуряват до 4 пъти повече енергия от консумираната.</p>
+                <p>Предлагаме термопомпи въздух-вода, въздух-въздух и геотермални системи от водещи производители.</p>
+                <ul class="service-features">
+                    <li>Термопомпи въздух-вода</li>
+                    <li>Термопомпи въздух-въздух</li>
+                    <li>Геотермални системи</li>
+                    <li>До 75% спестяване на енергия</li>
+                </ul>
+                <a href="contact.html" class="btn-outline">Заяви консултация</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Нуждаете се от климатично решение?</h2>
+        <p>Свържете се с нас за безплатен оглед и професионална консултация</p>
+        <a href="contact.html" class="btn-white">Заяви безплатен оглед</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Еър Брийз</h4>
+                <p>Вашият надежден партньор за климатични решения в Бургас и региона. Комфорт и свеж въздух за вашия дом.</p>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">ig</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>ул. Александровска 78, Бургас 8000</p>
+                <p>+359 56 812 345</p>
+                <p>info@airbreeze.bg</p>
+                <p>Пон - Пет: 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Еър Брийз. Всички права запазени.</p>
+        </div>
+    </footer>
+</body>
+</html>

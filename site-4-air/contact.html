@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еър Брийз | Контакти</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(135,206,235,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: 'Quicksand', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4fc3f7; }
+        .logo span { color: #87ceeb; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; color: #555; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #4fc3f7; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: #4fc3f7; border-radius: 3px; transition: 0.3s; }
+
+        .page-hero { padding: 140px 20px 80px; text-align: center; background: linear-gradient(135deg, #e0f4ff 0%, #b3e5fc 50%, #87ceeb 100%); position: relative; overflow: hidden; }
+        .page-hero::before { content: ''; position: absolute; top: 35%; left: 12%; width: 140px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        .page-hero h1 { font-size: 2.8rem; color: #fff; margin-bottom: 15px; text-shadow: 0 2px 12px rgba(79,195,247,0.3); }
+        .page-hero p { color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 550px; margin: 0 auto; }
+
+        .contact-section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+
+        .contact-form-wrapper { background: #fff; border-radius: 22px; padding: 45px 40px; box-shadow: 0 10px 40px rgba(135,206,235,0.12); animation: fadeInUp 0.8s ease; }
+        .contact-form-wrapper h2 { font-size: 1.8rem; color: #333; margin-bottom: 8px; }
+        .contact-form-wrapper .form-subtitle { color: #888; margin-bottom: 30px; }
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; font-weight: 600; color: #555; margin-bottom: 8px; font-size: 0.95rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #e8f0fe; border-radius: 14px; font-family: 'Nunito', sans-serif; font-size: 1rem; color: #333; background: #fafcff; transition: border-color 0.3s, box-shadow 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #4fc3f7; box-shadow: 0 0 0 4px rgba(79,195,247,0.1); }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #bbb; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .btn-submit { display: inline-block; padding: 15px 45px; background: linear-gradient(135deg, #4fc3f7, #87ceeb); color: #fff; font-weight: 700; font-size: 1.1rem; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-family: 'Nunito', sans-serif; box-shadow: 0 8px 25px rgba(79,195,247,0.25); }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(79,195,247,0.35); }
+
+        .contact-info-wrapper { animation: fadeInUp 0.8s ease 0.2s backwards; }
+        .contact-info-wrapper h2 { font-size: 1.8rem; color: #333; margin-bottom: 25px; }
+        .info-card { background: #fff; border-radius: 18px; padding: 25px; box-shadow: 0 6px 25px rgba(135,206,235,0.1); margin-bottom: 20px; display: flex; align-items: flex-start; gap: 18px; transition: all 0.3s; }
+        .info-card:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(135,206,235,0.15); }
+        .info-icon { width: 50px; height: 50px; background: linear-gradient(135deg, #b3e5fc, #4fc3f7); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+        .info-text h3 { font-size: 1.1rem; color: #333; margin-bottom: 5px; }
+        .info-text p { color: #777; line-height: 1.6; }
+        .info-text a { color: #4fc3f7; font-weight: 600; }
+
+        .map-container { margin-top: 20px; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 25px rgba(135,206,235,0.1); height: 220px; background: linear-gradient(135deg, #e0f4ff, #b3e5fc); display: flex; align-items: center; justify-content: center; }
+        .map-placeholder { text-align: center; color: #4fc3f7; }
+        .map-placeholder p { font-size: 1.1rem; font-weight: 600; }
+        .map-placeholder span { color: #aaa; font-size: 0.9rem; }
+
+        .working-hours { background: #fff; border-radius: 18px; padding: 25px; box-shadow: 0 6px 25px rgba(135,206,235,0.1); margin-top: 20px; }
+        .working-hours h3 { font-size: 1.1rem; color: #333; margin-bottom: 12px; }
+        .hours-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f4f8; color: #666; }
+        .hours-row:last-child { border-bottom: none; }
+        .hours-row span:last-child { color: #4fc3f7; font-weight: 600; }
+
+        footer { background: #1a3a4a; color: #ccc; padding: 60px 20px 30px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Quicksand', sans-serif; color: #4fc3f7; margin-bottom: 18px; font-size: 1.2rem; }
+        .footer-col p, .footer-col a { color: #aaa; line-height: 2; display: block; transition: color 0.3s; }
+        .footer-col a:hover { color: #4fc3f7; }
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(79,195,247,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4fc3f7; font-weight: 700; transition: all 0.3s; }
+        .social-links a:hover { background: #4fc3f7; color: #fff; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; color: #777; max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px 30px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .page-hero h1 { font-size: 2rem; }
+            .contact-section { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Еър <span>Брийз</span></a>
+            <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html" class="active">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Свържете се с нас</h1>
+        <p>Заявете безплатен оглед или се свържете с нас за консултация</p>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-form-wrapper">
+            <h2>Заяви оглед</h2>
+            <p class="form-subtitle">Попълнете формата и ние ще се свържем с вас до 24 часа</p>
+            <form onsubmit="event.preventDefault(); alert('Благодарим! Ще се свържем с вас скоро.');">
+                <div class="form-group">
+                    <label for="name">Име и фамилия</label>
+                    <input type="text" id="name" placeholder="Вашето име" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" placeholder="+359 ..." required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес</label>
+                    <input type="text" id="address" placeholder="Адрес на обекта">
+                </div>
+                <div class="form-group">
+                    <label for="service-type">Тип услуга</label>
+                    <select id="service-type" required>
+                        <option value="" disabled selected>Изберете услуга</option>
+                        <option value="montaj">Монтаж</option>
+                        <option value="serviz">Сервиз</option>
+                        <option value="otoplenie">Отопление</option>
+                        <option value="ventilacia">Вентилация</option>
+                        <option value="termopompi">Термопомпи</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Предпочитана дата</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="form-group">
+                    <label for="message">Допълнителна информация</label>
+                    <textarea id="message" placeholder="Опишете вашите нужди..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Изпрати заявка</button>
+            </form>
+        </div>
+
+        <div class="contact-info-wrapper">
+            <h2>Информация за контакт</h2>
+
+            <div class="info-card">
+                <div class="info-icon">&#x1F4CD;</div>
+                <div class="info-text">
+                    <h3>Адрес</h3>
+                    <p>ул. Александровска 78<br>Бургас 8000, България</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">&#x1F4DE;</div>
+                <div class="info-text">
+                    <h3>Телефон</h3>
+                    <p><a href="tel:+35956812345">+359 56 812 345</a></p>
+                    <p><a href="tel:+359888123456">+359 888 123 456</a></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">&#x2709;</div>
+                <div class="info-text">
+                    <h3>Имейл</h3>
+                    <p><a href="mailto:info@airbreeze.bg">info@airbreeze.bg</a></p>
+                    <p><a href="mailto:service@airbreeze.bg">service@airbreeze.bg</a></p>
+                </div>
+            </div>
+
+            <div class="working-hours">
+                <h3>Работно време</h3>
+                <div class="hours-row">
+                    <span>Понеделник - Петък</span>
+                    <span>09:00 - 18:00</span>
+                </div>
+                <div class="hours-row">
+                    <span>Събота</span>
+                    <span>10:00 - 14:00</span>
+                </div>
+                <div class="hours-row">
+                    <span>Неделя</span>
+                    <span>Почивен ден</span>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <p>Бургас, България</p>
+                    <span>ул. Александровска 78</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Еър Брийз</h4>
+                <p>Вашият надежден партньор за климатични решения в Бургас и региона. Комфорт и свеж въздух за вашия дом.</p>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">ig</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>ул. Александровска 78, Бургас 8000</p>
+                <p>+359 56 812 345</p>
+                <p>info@airbreeze.bg</p>
+                <p>Пон - Пет: 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Еър Брийз. Всички права запазени.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Услуги | Смарт Еър</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-dark: #0a0a0a; --bg-secondary: #1a1a2e; --green-1: #00ff41; --green-2: #39ff14; --green-3: #00e676; --text: #e0e0e0; --text-dim: #888; }
+        body { font-family: 'Exo 2', sans-serif; background: var(--bg-dark); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,255,65,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.5), 0 0 30px rgba(0,255,65,0.2); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.95rem; color: var(--text); transition: color 0.3s, text-shadow 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--green-1); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 2px; background: var(--green-1); transition: 0.3s; }
+
+        .glow { color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.4); }
+
+        .page-header { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at 50% 30%, rgba(0,255,65,0.04), transparent 60%), var(--bg-dark); }
+        .page-header .tag { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; opacity: 0.7; }
+        .page-header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* SERVICES GRID */
+        .services { padding: 80px 5%; background: var(--bg-secondary); }
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .service-card { background: rgba(10,10,10,0.7); border: 1px solid rgba(0,255,65,0.12); border-radius: 8px; padding: 2.5rem; transition: 0.4s; position: relative; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg, var(--green-1), transparent); opacity: 0; transition: 0.4s; }
+        .service-card:hover { border-color: rgba(0,255,65,0.35); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,255,65,0.06); }
+        .service-card:hover::before { opacity: 1; }
+        .service-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+        .service-icon { font-size: 2rem; width: 55px; height: 55px; background: rgba(0,255,65,0.06); border: 1px solid rgba(0,255,65,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .service-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--green-1); }
+        .service-card p { color: var(--text-dim); line-height: 1.8; font-size: 0.93rem; margin-bottom: 1.2rem; }
+        .service-features { list-style: none; }
+        .service-features li { color: var(--text-dim); font-size: 0.88rem; padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
+        .service-features li::before { content: '>'; position: absolute; left: 0; color: var(--green-1); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+
+        /* FULL WIDTH CARD */
+        .service-card.full { grid-column: 1 / -1; }
+
+        /* PROCESS */
+        .process { padding: 80px 5%; background: var(--bg-dark); }
+        .process-title { text-align: center; margin-bottom: 3rem; }
+        .process-title h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .process-title p { color: var(--text-dim); }
+        .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+        .step { text-align: center; padding: 2rem 1rem; background: rgba(26,26,46,0.4); border: 1px solid rgba(0,255,65,0.08); border-radius: 8px; position: relative; }
+        .step-num { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 10px rgba(0,255,65,0.3); margin-bottom: 0.8rem; }
+        .step h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .step p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.5; }
+
+        /* CTA */
+        .cta-section { padding: 80px 5%; text-align: center; background: radial-gradient(ellipse at center, rgba(0,255,65,0.04), transparent 70%), var(--bg-secondary); }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-dim); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn-glow { display: inline-block; padding: 14px 36px; background: var(--green-1); border: 1px solid var(--green-1); color: var(--bg-dark); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .btn-glow:hover { background: var(--green-2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
+
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+        .footer-col h4 { color: var(--green-1); font-size: 1rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .footer-col p, .footer-col a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.9; display: block; }
+        .footer-col a:hover { color: var(--green-1); }
+        .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(0,255,65,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--green-1); font-size: 0.8rem; transition: 0.3s; }
+        .footer-social a:hover { background: var(--green-1); color: var(--bg-dark); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(10,10,10,0.97); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(0,255,65,0.15); }
+            .nav-links.open { display: flex; }
+            .page-header h1 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .service-card.full { grid-column: auto; }
+            .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">&#9881; Смарт Еър</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html" class="active">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="page-header">
+        <div class="tag">// услуги</div>
+        <h1>Нашите <span class="glow">Решения</span></h1>
+        <p>Пълен спектър от интелигентни климатични услуги с IoT интеграция и AI оптимизация.</p>
+    </section>
+
+    <section class="services">
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">&#10052;</div>
+                    <h3>Монтаж на климатици</h3>
+                </div>
+                <p>Професионален монтаж на инверторни и мулти-сплит климатични системи с интеграция към умни домашни платформи. Всяка инсталация включва Wi-Fi модул за отдалечено управление.</p>
+                <ul class="service-features">
+                    <li>Инверторни сплит системи</li>
+                    <li>Мулти-сплит конфигурации</li>
+                    <li>Wi-Fi модул и IoT настройка</li>
+                    <li>Гаранция до 5 години</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">&#128295;</div>
+                    <h3>Сервиз и поддръжка</h3>
+                </div>
+                <p>Предиктивна поддръжка чрез IoT сензори, които следят работата на системата в реално време. Автоматични известия при необходимост от сервиз преди да възникне проблем.</p>
+                <ul class="service-features">
+                    <li>24/7 отдалечен мониторинг</li>
+                    <li>Предиктивна диагностика</li>
+                    <li>Профилактика и зареждане</li>
+                    <li>Аварийни ремонти до 2 часа</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">&#128293;</div>
+                    <h3>Отоплителни системи</h3>
+                </div>
+                <p>Умни отоплителни решения с програмируеми термостати и зонов контрол. AI алгоритми оптимизират температурата спрямо навиците ви и метеорологичните условия.</p>
+                <ul class="service-features">
+                    <li>Подово отопление с IoT контрол</li>
+                    <li>Зонов контрол на температурата</li>
+                    <li>Програмируеми термостати</li>
+                    <li>Интеграция с Google Home / Alexa</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">&#127744;</div>
+                    <h3>Вентилационни системи</h3>
+                </div>
+                <p>Интелигентна вентилация с автоматично регулиране на въздушния поток базирано на CO2 сензори и датчици за качество на въздуха. Рекуперация на топлина с до 95% ефективност.</p>
+                <ul class="service-features">
+                    <li>CO2 и VOC мониторинг</li>
+                    <li>Рекуперативни системи</li>
+                    <li>Автоматичен въздушен баланс</li>
+                    <li>HEPA филтрация</li>
+                </ul>
+            </div>
+
+            <div class="service-card full">
+                <div class="service-header">
+                    <div class="service-icon">&#9889;</div>
+                    <h3>Термопомпи</h3>
+                </div>
+                <p>Високоефективни термопомпи въздух-вода и земя-вода с COP до 5.0. Интелигентно управление, което автоматично превключва между режими за максимална ефективност. Перфектно решение за отопление, охлаждане и битова гореща вода целогодишно.</p>
+                <ul class="service-features">
+                    <li>Въздух-вода и земя-вода системи</li>
+                    <li>COP до 5.0 - максимална ефективност</li>
+                    <li>Отопление + охлаждане + БГВ</li>
+                    <li>Автоматично управление на режимите</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <div class="process-title">
+            <h2>Как <span class="glow">работим</span></h2>
+            <p>Нашият процес за безпроблемна инсталация</p>
+        </div>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h3>Консултация</h3>
+                <p>Безплатен оглед и анализ на обекта с IoT сензори</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h3>Проектиране</h3>
+                <p>3D моделиране и подбор на оптималната система</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h3>Монтаж</h3>
+                <p>Професионална инсталация и IoT интеграция</p>
+            </div>
+            <div class="step">
+                <div class="step-num">04</div>
+                <h3>Поддръжка</h3>
+                <p>24/7 мониторинг и предиктивен сервиз</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Нуждаете се от <span class="glow">умна</span> климатизация?</h2>
+        <p>Заявете безплатен оглед и получете персонализирано предложение.</p>
+        <a href="contact.html" class="btn-glow">Заяви оглед</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>// Смарт Еър</h4>
+                <p>Интелигентни климатични решения за дома и офиса. Вашият партньор за умен комфорт във Варна и региона.</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Контакти</h4>
+                <a href="tel:+359888123456">+359 888 123 456</a>
+                <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                <p>бул. Княз Борис I 78, Варна 9000</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Социални мрежи</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">in</a>
+                    <a href="#" aria-label="LinkedIn">li</a>
+                    <a href="#" aria-label="YouTube">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Смарт Еър. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

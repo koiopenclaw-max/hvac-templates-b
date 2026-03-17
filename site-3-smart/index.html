@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Смарт Еър | Интелигентни Климатични Решения</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-dark: #0a0a0a; --bg-secondary: #1a1a2e; --green-1: #00ff41; --green-2: #39ff14; --green-3: #00e676; --text: #e0e0e0; --text-dim: #888; }
+        body { font-family: 'Exo 2', sans-serif; background: var(--bg-dark); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,255,65,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.5), 0 0 30px rgba(0,255,65,0.2); }
+        .logo span { color: var(--text-dim); font-weight: 400; font-size: 0.8rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.95rem; color: var(--text); transition: color 0.3s, text-shadow 0.3s; font-weight: 400; }
+        .nav-links a:hover, .nav-links a.active { color: var(--green-1); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 2px; background: var(--green-1); transition: 0.3s; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 5% 60px; background: radial-gradient(ellipse at 50% 50%, rgba(0,255,65,0.05) 0%, transparent 60%), var(--bg-dark); position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1600') center/cover; opacity: 0.06; }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .hero-tag { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 1.5rem; opacity: 0.8; }
+        .hero-tag::before { content: '> '; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; }
+        .hero h1 .glow { color: var(--green-1); text-shadow: 0 0 20px rgba(0,255,65,0.5), 0 0 40px rgba(0,255,65,0.25), 0 0 80px rgba(0,255,65,0.1); }
+        .hero p { font-size: 1.15rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-glow { display: inline-block; padding: 14px 36px; background: transparent; border: 1px solid var(--green-1); color: var(--green-1); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 600; border-radius: 4px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .btn-glow:hover { background: var(--green-1); color: var(--bg-dark); box-shadow: 0 0 25px rgba(0,255,65,0.4), 0 0 50px rgba(0,255,65,0.15); }
+        .btn-solid { background: var(--green-1); color: var(--bg-dark); border-color: var(--green-1); }
+        .btn-solid:hover { background: var(--green-2); border-color: var(--green-2); }
+
+        /* TYPING ANIMATION */
+        .typing { display: inline; border-right: 2px solid var(--green-1); animation: blink 0.8s infinite; }
+        @keyframes blink { 0%, 100% { border-color: var(--green-1); } 50% { border-color: transparent; } }
+
+        /* FEATURES */
+        .features { padding: 100px 5%; background: var(--bg-secondary); }
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+        .section-title h2 .glow { color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.4); }
+        .section-title p { color: var(--text-dim); font-size: 1.05rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .feature-card { background: rgba(10,10,10,0.6); border: 1px solid rgba(0,255,65,0.15); border-radius: 8px; padding: 2.5rem 2rem; transition: 0.4s; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green-1), transparent); opacity: 0; transition: 0.4s; }
+        .feature-card:hover { border-color: rgba(0,255,65,0.4); transform: translateY(-5px); box-shadow: 0 10px 40px rgba(0,255,65,0.08); }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1.2rem; }
+        .feature-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--green-1); }
+        .feature-card p { color: var(--text-dim); line-height: 1.7; font-size: 0.95rem; }
+
+        /* SMART STRIP */
+        .smart-strip { padding: 60px 5%; background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); border-bottom: 1px solid rgba(0,255,65,0.1); }
+        .strip-inner { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+        .strip-item { text-align: center; }
+        .strip-item .num { font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
+        .strip-item .label { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+
+        /* CTA */
+        .cta-section { padding: 80px 5%; text-align: center; background: radial-gradient(ellipse at center, rgba(0,255,65,0.04), transparent 70%), var(--bg-secondary); }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-dim); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+        /* FOOTER */
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+        .footer-col h4 { color: var(--green-1); font-size: 1rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .footer-col p, .footer-col a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.9; display: block; }
+        .footer-col a:hover { color: var(--green-1); }
+        .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(0,255,65,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--green-1); font-size: 0.8rem; transition: 0.3s; }
+        .footer-social a:hover { background: var(--green-1); color: var(--bg-dark); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(10,10,10,0.97); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(0,255,65,0.15); }
+            .nav-links.open { display: flex; }
+            .hero h1 { font-size: 2.2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .strip-inner { gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">&#9881; Смарт Еър</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="active">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tag">системата е активна<span class="typing">&nbsp;</span></div>
+            <h1>Интелигентен <span class="glow">Климат</span> за Вашия Дом</h1>
+            <p>Свързваме модерни HVAC технологии с IoT решения за максимален комфорт и енергийна ефективност. Управлявайте климата от всяка точка на света.</p>
+            <div class="hero-buttons">
+                <a href="contact.html" class="btn-glow btn-solid">Заяви оглед</a>
+                <a href="services.html" class="btn-glow">Нашите услуги</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="section-title">
+            <h2>Защо да изберете <span class="glow">Смарт Еър</span>?</h2>
+            <p>Технологии от ново поколение за перфектен климат</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#128225;</div>
+                <h3>IoT Контрол</h3>
+                <p>Управлявайте вашата климатична система от телефона си. Wi-Fi свързаност, отдалечен достъп и автоматични сценарии за всяка стая.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#129302;</div>
+                <h3>AI Оптимизация</h3>
+                <p>Изкуственият интелект анализира навиците ви и автоматично оптимизира температурата, като намалява енергийните разходи с до 35%.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#127968;</div>
+                <h3>Умен Дом Интеграция</h3>
+                <p>Пълна съвместимост с Google Home, Amazon Alexa и Apple HomeKit. Интегрирайте климата в цялостната умна система на дома.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="smart-strip">
+        <div class="strip-inner">
+            <div class="strip-item"><div class="num">2000+</div><div class="label">Умни инсталации</div></div>
+            <div class="strip-item"><div class="num">35%</div><div class="label">Спестена енергия</div></div>
+            <div class="strip-item"><div class="num">24/7</div><div class="label">Мониторинг</div></div>
+            <div class="strip-item"><div class="num">10+</div><div class="label">Години опит</div></div>
+        </div>
+    </section>
+
+    <section style="padding:80px 5%;background:var(--bg-dark);">
+        <div class="section-title">
+            <h2>Отзиви от <span class="glow">клиенти</span></h2>
+            <p>Какво казват нашите доволни потребители</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1100px;margin:0 auto;">
+            <div style="background:rgba(26,26,46,0.8);border:1px solid rgba(0,255,65,0.12);border-radius:8px;padding:2rem;">
+                <div style="color:var(--green-1);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p style="color:var(--text-dim);line-height:1.7;font-style:italic;margin-bottom:15px;">"Системата се управлява перфектно от телефона. Спестихме 30% от сметката за ток за първите 3 месеца."</p>
+                <span style="color:var(--green-1);font-weight:600;">Иван Петров, Варна</span>
+            </div>
+            <div style="background:rgba(26,26,46,0.8);border:1px solid rgba(0,255,65,0.12);border-radius:8px;padding:2rem;">
+                <div style="color:var(--green-1);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p style="color:var(--text-dim);line-height:1.7;font-style:italic;margin-bottom:15px;">"Интеграцията с Google Home е безупречна. Екипът на Смарт Еър е изключително компетентен."</p>
+                <span style="color:var(--green-1);font-weight:600;">Десислава Колева, Варна</span>
+            </div>
+            <div style="background:rgba(26,26,46,0.8);border:1px solid rgba(0,255,65,0.12);border-radius:8px;padding:2rem;">
+                <div style="color:var(--green-1);margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p style="color:var(--text-dim);line-height:1.7;font-style:italic;margin-bottom:15px;">"Монтажът беше бърз и чист. AI оптимизацията наистина работи — климатикът сам се настройва."</p>
+                <span style="color:var(--green-1);font-weight:600;">Стоян Георгиев, Добрич</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Готови ли сте за <span class="glow">умен климат</span>?</h2>
+        <p>Свържете се с нас за безплатна консултация и професионален оглед на вашия обект.</p>
+        <a href="contact.html" class="btn-glow btn-solid">Свържете се с нас</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>// Смарт Еър</h4>
+                <p>Интелигентни климатични решения за дома и офиса. Вашият партньор за умен комфорт във Варна и региона.</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Контакти</h4>
+                <a href="tel:+359888123456">+359 888 123 456</a>
+                <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                <p>бул. Княз Борис I 78, Варна 9000</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Социални мрежи</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">in</a>
+                    <a href="#" aria-label="LinkedIn">li</a>
+                    <a href="#" aria-label="YouTube">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Смарт Еър. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти | Смарт Еър</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-dark: #0a0a0a; --bg-secondary: #1a1a2e; --green-1: #00ff41; --green-2: #39ff14; --green-3: #00e676; --text: #e0e0e0; --text-dim: #888; }
+        body { font-family: 'Exo 2', sans-serif; background: var(--bg-dark); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,255,65,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.5), 0 0 30px rgba(0,255,65,0.2); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.95rem; color: var(--text); transition: color 0.3s, text-shadow 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--green-1); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 2px; background: var(--green-1); transition: 0.3s; }
+
+        .glow { color: var(--green-1); text-shadow: 0 0 15px rgba(0,255,65,0.4); }
+
+        .page-header { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at 50% 30%, rgba(0,255,65,0.04), transparent 60%), var(--bg-dark); }
+        .page-header .tag { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; opacity: 0.7; }
+        .page-header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* CONTACT SECTION */
+        .contact { padding: 80px 5%; background: var(--bg-secondary); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; }
+
+        /* FORM */
+        .form-wrapper { background: rgba(10,10,10,0.7); border: 1px solid rgba(0,255,65,0.15); border-radius: 8px; padding: 2.5rem; }
+        .form-wrapper h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .form-wrapper .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--green-1); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.5rem; }
+        .form-group label::before { content: '> '; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,255,65,0.15); border-radius: 4px; color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 0.95rem; transition: 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-1); box-shadow: 0 0 15px rgba(0,255,65,0.1); }
+        .form-group input::placeholder { color: var(--text-dim); }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300ff41' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+        .form-group select option { background: var(--bg-dark); color: var(--text); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--green-1); border: 1px solid var(--green-1); color: var(--bg-dark); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-submit:hover { background: var(--green-2); box-shadow: 0 0 25px rgba(0,255,65,0.4), 0 0 50px rgba(0,255,65,0.15); }
+
+        /* CONTACT INFO */
+        .contact-info h2 { font-size: 1.5rem; margin-bottom: 2rem; }
+        .info-card { background: rgba(10,10,10,0.5); border: 1px solid rgba(0,255,65,0.1); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.2rem; display: flex; align-items: flex-start; gap: 1rem; transition: 0.3s; }
+        .info-card:hover { border-color: rgba(0,255,65,0.3); }
+        .info-icon { font-size: 1.5rem; width: 45px; height: 45px; background: rgba(0,255,65,0.06); border: 1px solid rgba(0,255,65,0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .info-card h3 { font-size: 0.95rem; color: var(--green-1); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.3rem; }
+        .info-card p, .info-card a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; display: block; }
+        .info-card a:hover { color: var(--green-1); }
+
+        .work-hours { margin-top: 2rem; padding: 1.5rem; background: rgba(0,255,65,0.03); border: 1px solid rgba(0,255,65,0.1); border-radius: 8px; }
+        .work-hours h3 { font-family: 'JetBrains Mono', monospace; color: var(--green-1); font-size: 0.95rem; margin-bottom: 1rem; }
+        .hours-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.88rem; }
+        .hours-row .day { color: var(--text-dim); }
+        .hours-row .time { color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
+        .hours-row .time.closed { color: #ff4444; }
+
+        /* MAP */
+        .map-section { padding: 0; background: var(--bg-dark); }
+        .map-container { width: 100%; height: 350px; border-top: 1px solid rgba(0,255,65,0.1); border-bottom: 1px solid rgba(0,255,65,0.1); filter: grayscale(1) brightness(0.6) contrast(1.2); transition: 0.4s; }
+        .map-container:hover { filter: grayscale(0.5) brightness(0.7) contrast(1.1); }
+        .map-container iframe { width: 100%; height: 100%; border: none; }
+
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(0,255,65,0.1); padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+        .footer-col h4 { color: var(--green-1); font-size: 1rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+        .footer-col p, .footer-col a { color: var(--text-dim); font-size: 0.9rem; line-height: 1.9; display: block; }
+        .footer-col a:hover { color: var(--green-1); }
+        .footer-social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(0,255,65,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--green-1); font-size: 0.8rem; transition: 0.3s; }
+        .footer-social a:hover { background: var(--green-1); color: var(--bg-dark); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(10,10,10,0.97); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(0,255,65,0.15); }
+            .nav-links.open { display: flex; }
+            .page-header h1 { font-size: 2rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">&#9881; Смарт Еър</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html" class="active">Контакти</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="page-header">
+        <div class="tag">// свържете се с нас</div>
+        <h1>Заяви <span class="glow">Оглед</span></h1>
+        <p>Попълнете формата и наш специалист ще се свърже с вас в рамките на 2 часа.</p>
+    </section>
+
+    <section class="contact">
+        <div class="contact-grid">
+            <div class="form-wrapper">
+                <h2>Заявка за <span class="glow">оглед</span></h2>
+                <p class="subtitle">Всички полета са задължителни</p>
+                <form onsubmit="event.preventDefault(); alert('Заявката е изпратена успешно! Ще се свържем с вас скоро.');">
+                    <div class="form-group">
+                        <label for="name">Име</label>
+                        <input type="text" id="name" placeholder="Вашето име и фамилия" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" placeholder="+359 888 000 000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес</label>
+                        <input type="text" id="address" placeholder="Адрес на обекта" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Тип услуга</label>
+                        <select id="service" required>
+                            <option value="" disabled selected>Изберете услуга</option>
+                            <option value="montaj">Монтаж</option>
+                            <option value="service">Сервиз</option>
+                            <option value="otoplenie">Отопление</option>
+                            <option value="ventilacia">Вентилация</option>
+                            <option value="termopompi">Термопомпи</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Предпочитана дата</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Допълнителна информация</label>
+                        <textarea id="message" placeholder="Опишете вашите нужди (по желание)"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Изпрати заявка</button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h2>Контактна <span class="glow">информация</span></h2>
+
+                <div class="info-card">
+                    <div class="info-icon">&#128222;</div>
+                    <div>
+                        <h3>// телефон</h3>
+                        <a href="tel:+359888123456">+359 888 123 456</a>
+                        <a href="tel:+35952123456">+359 52 123 456</a>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">&#9993;</div>
+                    <div>
+                        <h3>// имейл</h3>
+                        <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                        <a href="mailto:service@smartair.bg">service@smartair.bg</a>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">&#128205;</div>
+                    <div>
+                        <h3>// адрес</h3>
+                        <p>бул. Княз Борис I 78</p>
+                        <p>Варна 9000, България</p>
+                    </div>
+                </div>
+
+                <div class="work-hours">
+                    <h3>// работно време</h3>
+                    <div class="hours-row"><span class="day">Понеделник - Петък</span><span class="time">08:00 - 18:00</span></div>
+                    <div class="hours-row"><span class="day">Събота</span><span class="time">09:00 - 14:00</span></div>
+                    <div class="hours-row"><span class="day">Неделя</span><span class="time closed">Затворено</span></div>
+                    <div class="hours-row"><span class="day">Аварийни повиквания</span><span class="time">24/7</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.2!2d27.9168!3d43.2141!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDEyJzUwLjgiTiAyN8KwNTUnMDAuNSJF!5e0!3m2!1sbg!2sbg!4v1" allowfullscreen loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>// Смарт Еър</h4>
+                <p>Интелигентни климатични решения за дома и офиса. Вашият партньор за умен комфорт във Варна и региона.</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Контакти</h4>
+                <a href="tel:+359888123456">+359 888 123 456</a>
+                <a href="mailto:info@smartair.bg">info@smartair.bg</a>
+                <p>бул. Княз Борис I 78, Варна 9000</p>
+            </div>
+            <div class="footer-col">
+                <h4>// Социални мрежи</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">in</a>
+                    <a href="#" aria-label="LinkedIn">li</a>
+                    <a href="#" aria-label="YouTube">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Смарт Еър. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

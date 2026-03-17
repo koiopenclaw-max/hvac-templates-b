@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Марки - Хийт Мастърс</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; color: #2b2b2b; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Bitter', serif; }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-family: 'Bitter', serif; font-size: 1.6rem; font-weight: 700; color: #fcbf49; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: #fff; text-decoration: none; font-family: 'Lora', serif; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #fcbf49; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .hamburger span { width: 28px; height: 3px; background: #fcbf49; border-radius: 3px; transition: 0.3s; }
+
+        .page-header { padding: 140px 5% 70px; background: linear-gradient(135deg, #d62828 0%, #ff6b35 50%, #f77f00 100%); text-align: center; position: relative; }
+        .page-header::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1600') center/cover; opacity: 0.1; }
+        .page-header h1 { font-size: 2.8rem; color: #fff; position: relative; text-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+        .page-header p { color: rgba(255,255,255,0.9); font-size: 1.15rem; margin-top: 12px; position: relative; }
+
+        .section-title { text-align: center; font-size: 2.2rem; color: #d62828; margin-bottom: 50px; }
+        .section-title::after { content: ''; display: block; width: 80px; height: 4px; background: linear-gradient(90deg, #ff6b35, #fcbf49); margin: 15px auto 0; border-radius: 2px; }
+
+        /* Brands */
+        .brands { padding: 80px 5%; background: #fff; }
+        .brands-list { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+        .brand-card { display: grid; grid-template-columns: 280px 1fr; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.08); transition: all 0.4s; background: #fff; border: 1px solid rgba(255,107,53,0.1); }
+        .brand-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(214,40,40,0.12); }
+        .brand-card:nth-child(even) { direction: rtl; }
+        .brand-card:nth-child(even) > * { direction: ltr; }
+        .brand-logo-area { background: linear-gradient(135deg, #fdf6ec, #fff8f0); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 35px; }
+        .brand-logo-area h2 { font-size: 1.6rem; color: #d62828; margin-bottom: 8px; }
+        .brand-logo-area .brand-origin { color: #f77f00; font-size: 0.85rem; font-weight: 500; }
+        .brand-details { padding: 30px; }
+        .brand-details p { color: #555; line-height: 1.7; font-size: 0.95rem; margin-bottom: 15px; }
+        .brand-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+        .brand-tag { padding: 5px 14px; background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(252,191,73,0.15)); color: #d62828; border-radius: 20px; font-size: 0.8rem; font-family: 'Bitter', serif; font-weight: 600; }
+        .brand-price { font-family: 'Bitter', serif; font-weight: 700; color: #ff6b35; font-size: 1rem; }
+
+        /* Why section */
+        .why-brands { padding: 70px 5%; background: linear-gradient(135deg, #d62828, #f77f00); text-align: center; }
+        .why-brands h2 { color: #fff; font-size: 2rem; margin-bottom: 15px; }
+        .why-brands p { color: rgba(255,255,255,0.9); font-size: 1.05rem; max-width: 700px; margin: 0 auto 30px; line-height: 1.7; }
+        .btn-light { display: inline-block; padding: 15px 38px; background: #fcbf49; color: #1e1e1e; font-family: 'Bitter', serif; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.3s; }
+        .btn-light:hover { background: #fff; transform: translateY(-2px); }
+
+        footer { background: #1e1e1e; color: #ccc; padding: 50px 5% 25px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .footer-col h4 { font-size: 1.1rem; color: #fcbf49; margin-bottom: 18px; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; font-size: 0.9rem; line-height: 2; display: block; }
+        .footer-col a:hover { color: #fcbf49; }
+        .social-links { display: flex; gap: 12px; margin-top: 10px; }
+        .social-links a { width: 38px; height: 38px; border-radius: 50%; background: rgba(252,191,73,0.15); display: flex; align-items: center; justify-content: center; color: #fcbf49; font-size: 0.85rem; transition: 0.3s; }
+        .social-links a:hover { background: #fcbf49; color: #1e1e1e; }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: rgba(30,30,30,0.98); flex-direction: column; align-items: center; padding: 30px 0; gap: 20px; transform: translateY(-150%); transition: 0.4s; }
+            .nav-links.open { transform: translateY(0); }
+            .page-header h1 { font-size: 2rem; }
+            .brand-card, .brand-card:nth-child(even) { grid-template-columns: 1fr; direction: ltr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Хийт Мастърс</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html" class="active">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Марки партньори</h1>
+        <p>Работим с водещите световни производители на отоплителна и климатична техника</p>
+    </section>
+
+    <section class="brands">
+        <h2 class="section-title">Нашите марки</h2>
+        <div class="brands-list">
+            <div class="brand-card">
+                <div class="brand-logo-area">
+                    <h2>Daikin</h2>
+                    <span class="brand-origin">Япония</span>
+                </div>
+                <div class="brand-details">
+                    <p>Daikin е световен лидер в производството на климатични и отоплителни системи. С над 100 години история, компанията е известна с иновативните си технологии и непревзойдена надеждност. Техните инверторни системи осигуряват максимален комфорт при минимална консумация.</p>
+                    <div class="brand-features">
+                        <span class="brand-tag">Инверторна технология</span>
+                        <span class="brand-tag">Клас A+++</span>
+                        <span class="brand-tag">Тихи модели</span>
+                        <span class="brand-tag">Wi-Fi управление</span>
+                    </div>
+                    <span class="brand-price">Ценови диапазон: 1 800 - 6 500 лв.</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-logo-area">
+                    <h2>Mitsubishi Electric</h2>
+                    <span class="brand-origin">Япония</span>
+                </div>
+                <div class="brand-details">
+                    <p>Mitsubishi Electric е синоним на качество и технологично превъзходство. Техните климатични системи и термопомпи се отличават с изключителна дълготрайност, прецизен контрол на температурата и елегантен дизайн. Перфектен избор за взискателни клиенти.</p>
+                    <div class="brand-features">
+                        <span class="brand-tag">3D сензор за движение</span>
+                        <span class="brand-tag">Plasma Quad филтър</span>
+                        <span class="brand-tag">Нискотемпературно отопление</span>
+                        <span class="brand-tag">Hyper Heating</span>
+                    </div>
+                    <span class="brand-price">Ценови диапазон: 2 200 - 8 000 лв.</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-logo-area">
+                    <h2>Toshiba</h2>
+                    <span class="brand-origin">Япония</span>
+                </div>
+                <div class="brand-details">
+                    <p>Toshiba предлага отлично съотношение цена-качество с модерни технологии за пречистване на въздуха и интелигентно управление. Техните системи са идеални за домашна и търговска употреба с компактен дизайн и тиха работа.</p>
+                    <div class="brand-features">
+                        <span class="brand-tag">Daiseikai технология</span>
+                        <span class="brand-tag">IAQ филтрация</span>
+                        <span class="brand-tag">Компактен дизайн</span>
+                        <span class="brand-tag">Самопочистване</span>
+                    </div>
+                    <span class="brand-price">Ценови диапазон: 1 500 - 5 000 лв.</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-logo-area">
+                    <h2>Fujitsu</h2>
+                    <span class="brand-origin">Япония</span>
+                </div>
+                <div class="brand-details">
+                    <p>Fujitsu се отличава с ефективни и надеждни климатични решения, подходящи за различни типове помещения. Техните системи комбинират японско качество с достъпни цени и иновативни функции за пречистване на въздуха.</p>
+                    <div class="brand-features">
+                        <span class="brand-tag">Apple-Pie сензор</span>
+                        <span class="brand-tag">Nocria серия</span>
+                        <span class="brand-tag">Ion Deodorizing</span>
+                        <span class="brand-tag">Двоен въздушен поток</span>
+                    </div>
+                    <span class="brand-price">Ценови диапазон: 1 400 - 4 800 лв.</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-logo-area">
+                    <h2>Midea</h2>
+                    <span class="brand-origin">Китай</span>
+                </div>
+                <div class="brand-details">
+                    <p>Midea е един от най-големите производители на климатична техника в света. Предлага широка гама от продукти с отлично качество на конкурентни цени. Перфектен избор за клиенти, които търсят надеждност на достъпна цена.</p>
+                    <div class="brand-features">
+                        <span class="brand-tag">Достъпни цени</span>
+                        <span class="brand-tag">Широка гама</span>
+                        <span class="brand-tag">Инверторни модели</span>
+                        <span class="brand-tag">Модерен дизайн</span>
+                    </div>
+                    <span class="brand-price">Ценови диапазон: 900 - 3 200 лв.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-brands">
+        <h2>Защо точно тези марки?</h2>
+        <p>Избрахме партньори, които споделят нашите ценности за качество, иновации и дълготрайност. Всяка марка в нашето портфолио е преминала стриктна проверка и е доказала надеждността си на българския пазар.</p>
+        <a href="contact.html" class="btn-light">Поискай оферта</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Хийт Мастърс</h4>
+                <p>Вашият доверен партньор в отоплителните и климатични решения от 2008 година в Пловдив.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>&#128222; +359 32 123 456</p>
+                <p>&#128231; info@heitmasters.bg</p>
+                <p>&#128205; бул. Марица 45, Пловдив 4000</p>
+            </div>
+            <div class="footer-col">
+                <h4>Следете ни</h4>
+                <div class="social-links">
+                    <a href="#">Fb</a>
+                    <a href="#">In</a>
+                    <a href="#">Yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2024 Хийт Мастърс. Всички права запазени.</div>
+    </footer>
+</body>
+</html>

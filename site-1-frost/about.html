@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>За нас — Фрост Климат</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --ice: #e8f4fd; --blue: #0ea5e9; --blue-dark: #0284c7; --white: #ffffff; --gray: #64748b; --dark: #0f172a; }
+        body { font-family: 'Rubik', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Rajdhani', sans-serif; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(14,165,233,0.15); transition: box-shadow 0.3s; }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(14,165,233,0.12); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; }
+        .logo { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--blue-dark); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
+        .logo span { color: var(--blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--blue); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .hamburger span { width: 26px; height: 2.5px; background: var(--dark); border-radius: 2px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+        @media(max-width:768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 60px; left: 0; width: 100%; flex-direction: column; background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 1.5rem; gap: 1.2rem; transform: translateY(-120%); transition: transform 0.4s; border-bottom: 1px solid rgba(14,165,233,0.15); }
+            .nav-links.open { transform: translateY(0); }
+        }
+
+        /* PAGE HERO */
+        .page-hero { padding: 8rem 1.5rem 4rem; background: linear-gradient(135deg, var(--ice), #bae6fd); text-align: center; }
+        .page-hero h1 { font-size: 2.8rem; color: var(--dark); margin-bottom: 0.8rem; animation: fadeUp 0.8s ease-out; }
+        .page-hero p { color: var(--gray); font-size: 1.1rem; max-width: 550px; margin: 0 auto; animation: fadeUp 1s ease-out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* STORY */
+        .story { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .story img { width: 100%; border-radius: 16px; object-fit: cover; height: 380px; box-shadow: 0 16px 40px rgba(14,165,233,0.15); }
+        .story-text h2 { font-size: 2rem; margin-bottom: 1rem; color: var(--dark); }
+        .story-text p { color: var(--gray); line-height: 1.8; margin-bottom: 1rem; font-size: 0.98rem; }
+        @media(max-width:768px) { .story { grid-template-columns: 1fr; } }
+
+        /* VALUES */
+        .values { padding: 5rem 1.5rem; background: var(--ice); }
+        .section-title { text-align: center; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--dark); }
+        .section-sub { text-align: center; color: var(--gray); font-size: 1.05rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .value-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(14,165,233,0.1); border-radius: 16px; padding: 2.2rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+        .value-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(14,165,233,0.15); }
+        .value-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .value-card h3 { font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--dark); }
+        .value-card p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; }
+
+        /* STATS */
+        .stats { padding: 4rem 1.5rem; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; text-align: center; }
+        .stat-item { color: var(--white); }
+        .stat-item .number { font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 700; display: block; }
+        .stat-item .label { font-size: 0.95rem; opacity: 0.85; }
+
+        /* TEAM */
+        .team { padding: 5rem 1.5rem; background: var(--white); }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+        .team-card { text-align: center; background: var(--ice); border-radius: 16px; padding: 2rem; transition: transform 0.3s; }
+        .team-card:hover { transform: translateY(-4px); }
+        .team-card img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid var(--white); box-shadow: 0 4px 15px rgba(14,165,233,0.2); }
+        .team-card h3 { font-size: 1.15rem; margin-bottom: 0.3rem; }
+        .team-card .role { color: var(--blue); font-size: 0.9rem; margin-bottom: 0.6rem; }
+        .team-card p { color: var(--gray); font-size: 0.88rem; line-height: 1.5; }
+
+        /* FOOTER */
+        footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 4rem 1.5rem 1.5rem; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; }
+        footer h4 { font-family: 'Rajdhani', sans-serif; color: var(--white); font-size: 1.2rem; margin-bottom: 1rem; }
+        footer p, footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.92rem; line-height: 1.8; }
+        footer a:hover { color: var(--blue); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.4rem; }
+        .social-links { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .social-links a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--white); transition: background 0.3s; font-size: 0.9rem; }
+        .social-links a:hover { background: var(--blue); }
+        .footer-bottom { max-width: 1100px; margin: 2.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+
+        @media(max-width:600px) { .page-hero h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="logo"><span>&#10052;</span> Фрост Климат</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html" class="active">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <h1>За Фрост Климат</h1>
+    <p>Научете повече за нашата история, екип и ценности, които ни правят водещ избор за климатични решения.</p>
+</section>
+
+<!-- STORY -->
+<section class="story">
+    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop" alt="Екипът на Фрост Климат">
+    <div class="story-text">
+        <h2>Нашата история</h2>
+        <p>Фрост Климат е основана през 2010 година в София с ясна мисия — да предоставяме висококачествени климатични решения на достъпни цени. Започнахме като малък екип от двама техници с голяма амбиция.</p>
+        <p>Днес нашият екип наброява над 25 сертифицирани специалисти, а обслужваме както частни клиенти, така и големи корпоративни обекти в цяла Западна България.</p>
+        <p>Непрекъснато инвестираме в обучение, модерно оборудване и нови технологии, за да гарантираме, че всеки наш клиент получава най-доброто обслужване.</p>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="number">1500+</span>
+            <span class="label">Доволни клиенти</span>
+        </div>
+        <div class="stat-item">
+            <span class="number">13+</span>
+            <span class="label">Години опит</span>
+        </div>
+        <div class="stat-item">
+            <span class="number">3200+</span>
+            <span class="label">Монтирани системи</span>
+        </div>
+        <div class="stat-item">
+            <span class="number">25+</span>
+            <span class="label">Специалисти</span>
+        </div>
+    </div>
+</section>
+
+<!-- VALUES -->
+<section class="values">
+    <h2 class="section-title">Нашите ценности</h2>
+    <p class="section-sub">Принципите, които ръководят всяко наше действие и решение.</p>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon">&#128142;</div>
+            <h3>Качество</h3>
+            <p>Използваме само оригинални части и материали от водещи производители. Всеки монтаж отговаря на най-високите стандарти.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">&#128161;</div>
+            <h3>Иновации</h3>
+            <p>Следим последните тенденции в климатичната индустрия и предлагаме най-модерните и енергийно ефективни решения.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">&#129309;</div>
+            <h3>Доверие</h3>
+            <p>Изграждаме дългосрочни отношения с нашите клиенти, основани на честност, прозрачност и коректност.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section class="team">
+    <h2 class="section-title">Нашият екип</h2>
+    <p class="section-sub">Запознайте се с хората, които стоят зад успеха на Фрост Климат.</p>
+    <div class="team-grid">
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face" alt="Димитър Стоянов">
+            <h3>Димитър Стоянов</h3>
+            <div class="role">Управител и основател</div>
+            <p>Над 18 години опит в климатичната индустрия. Сертифициран инженер по ОВК системи.</p>
+        </div>
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face" alt="Ивана Николова">
+            <h3>Ивана Николова</h3>
+            <div class="role">Търговски директор</div>
+            <p>Отговаря за клиентските отношения и координацията на проектите.</p>
+        </div>
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Красимир Тодоров">
+            <h3>Красимир Тодоров</h3>
+            <div class="role">Главен техник</div>
+            <p>Ръководи монтажния екип и контролира качеството на всеки проект.</p>
+        </div>
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face" alt="Силвия Маринова">
+            <h3>Силвия Маринова</h3>
+            <div class="role">Сервизен координатор</div>
+            <p>Организира сервизните посещения и поддръжката на клиентските системи.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div>
+            <h4>&#10052; Фрост Климат</h4>
+            <p>Вашият надежден партньор за климатични решения в София и региона от 2010 година.</p>
+            <div class="social-links" style="margin-top:1rem;">
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Instagram">in</a>
+                <a href="#" aria-label="Viber">V</a>
+            </div>
+        </div>
+        <div>
+            <h4>Навигация</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Контакти</h4>
+            <p>&#128222; +359 2 987 6543</p>
+            <p>&#128231; info@frostclimat.bg</p>
+            <p>&#128205; бул. Витоша 120, София 1000, България</p>
+        </div>
+        <div>
+            <h4>Работно време</h4>
+            <p>Пон - Пет: 08:00 - 18:00</p>
+            <p>Събота: 09:00 - 14:00</p>
+            <p>Неделя: Почивен ден</p>
+            <p style="margin-top:0.5rem;">Аварийна линия: 24/7</p>
+        </div>
+    </div>
+    <div class="footer-bottom">&copy; 2024 Фрост Климат. Всички права запазени.</div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); navLinks.classList.toggle('open'); });
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30); });
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC Шаблони — Комплект Б</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e12;
+            color: #e2e2e8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 80px 24px 20px;
+        }
+
+        header .badge {
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #818cf8;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            padding: 6px 18px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            animation: fadeInDown 0.6s ease-out both;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            animation: fadeInDown 0.6s 0.15s ease-out both;
+        }
+
+        header h1 span {
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #9898a6;
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.7;
+            animation: fadeInDown 0.6s 0.3s ease-out both;
+        }
+
+        .grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            max-width: 1160px;
+            margin: 50px auto 0;
+            padding: 0 24px 80px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.15s; }
+        .card:nth-child(2) { animation-delay: 0.25s; }
+        .card:nth-child(3) { animation-delay: 0.35s; }
+        .card:nth-child(4) { animation-delay: 0.45s; }
+        .card:nth-child(5) { animation-delay: 0.55s; }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-banner {
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to top, #0e0e12, transparent);
+            pointer-events: none;
+        }
+
+        .card:nth-child(1) .card-banner {
+            background: linear-gradient(135deg, #e0f0ff 0%, #7ec8e3 40%, #a8d8ea 100%);
+        }
+        .card:nth-child(2) .card-banner {
+            background: linear-gradient(135deg, #f5a623 0%, #e05a3a 50%, #c0392b 100%);
+        }
+        .card:nth-child(3) .card-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #00e676 100%);
+        }
+        .card:nth-child(4) .card-banner {
+            background: linear-gradient(135deg, #a8d5f2 0%, #d4ecfc 40%, #ffffff 100%);
+        }
+        .card:nth-child(5) .card-banner {
+            background: linear-gradient(135deg, #2d2d2d 0%, #3e3e3e 40%, #f5c518 100%);
+        }
+
+        .card-banner .banner-label {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        .card:nth-child(1) .banner-label { background: rgba(0,0,0,0.25); color: #e0f0ff; }
+        .card:nth-child(2) .banner-label { background: rgba(0,0,0,0.3); color: #ffe0c0; }
+        .card:nth-child(3) .banner-label { background: rgba(0,230,118,0.2); color: #00e676; }
+        .card:nth-child(4) .banner-label { background: rgba(0,0,0,0.15); color: #3a7cbf; }
+        .card:nth-child(5) .banner-label { background: rgba(245,197,24,0.2); color: #f5c518; }
+
+        .card-body { padding: 24px 24px 28px; }
+
+        .card-body h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .card-body .theme-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+        }
+
+        .card:nth-child(1) .theme-tag { background: rgba(126,200,227,0.15); color: #7ec8e3; }
+        .card:nth-child(2) .theme-tag { background: rgba(224,90,58,0.15); color: #e8845a; }
+        .card:nth-child(3) .theme-tag { background: rgba(0,230,118,0.12); color: #00e676; }
+        .card:nth-child(4) .theme-tag { background: rgba(100,180,240,0.15); color: #64b4f0; }
+        .card:nth-child(5) .theme-tag { background: rgba(245,197,24,0.15); color: #f5c518; }
+
+        .card-body p {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #8a8a98;
+            margin-bottom: 22px;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .card-link:hover {
+            transform: translateX(3px);
+        }
+
+        .card:nth-child(1) .card-link { color: #7ec8e3; background: rgba(126,200,227,0.1); }
+        .card:nth-child(1) .card-link:hover { background: rgba(126,200,227,0.2); }
+        .card:nth-child(2) .card-link { color: #e8845a; background: rgba(224,90,58,0.1); }
+        .card:nth-child(2) .card-link:hover { background: rgba(224,90,58,0.2); }
+        .card:nth-child(3) .card-link { color: #00e676; background: rgba(0,230,118,0.1); }
+        .card:nth-child(3) .card-link:hover { background: rgba(0,230,118,0.2); }
+        .card:nth-child(4) .card-link { color: #64b4f0; background: rgba(100,180,240,0.1); }
+        .card:nth-child(4) .card-link:hover { background: rgba(100,180,240,0.2); }
+        .card:nth-child(5) .card-link { color: #f5c518; background: rgba(245,197,24,0.1); }
+        .card:nth-child(5) .card-link:hover { background: rgba(245,197,24,0.2); }
+
+        .card-link .arrow { transition: transform 0.2s ease; }
+        .card-link:hover .arrow { transform: translateX(4px); }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 0 24px 48px;
+            color: #4a4a58;
+            font-size: 0.82rem;
+        }
+
+        footer span {
+            color: #6366f1;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 720px) {
+            header { padding: 56px 20px 12px; }
+            .grid { gap: 20px; padding: 36px 16px 60px; grid-template-columns: 1fr; }
+            .card-banner { height: 130px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="badge">Комплект Б</div>
+        <h1>HVAC <span>Шаблони</span></h1>
+        <p>5 уникални уебсайта за климатични компании в България</p>
+    </header>
+
+    <section class="grid">
+        <article class="card">
+            <div class="card-banner">
+                <span class="banner-label">Сайт 1</span>
+            </div>
+            <div class="card-body">
+                <h2>Frost Climate</h2>
+                <span class="theme-tag">Ледено бяло &bull; Кристално синьо</span>
+                <p>Елегантен дизайн с ефект на замръзнало стъкло, нежни ледени нюанси и кристална прозрачност. Перфектен за фирми, специализирани в охлаждане и климатизация.</p>
+                <a href="site-1-frost/index.html" class="card-link">
+                    Преглед <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-banner">
+                <span class="banner-label">Сайт 2</span>
+            </div>
+            <div class="card-body">
+                <h2>Heat Masters</h2>
+                <span class="theme-tag">Топъл кехлибар &bull; Червен градиент</span>
+                <p>Топли огнени тонове от кехлибар до наситено червено. Динамичен дизайн, вдъхновен от отоплителни системи, излъчващ мощност и надеждност.</p>
+                <a href="site-2-heat/index.html" class="card-link">
+                    Преглед <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-banner">
+                <span class="banner-label">Сайт 3</span>
+            </div>
+            <div class="card-body">
+                <h2>Smart Air</h2>
+                <span class="theme-tag">Тъмен &bull; Електрическо зелено</span>
+                <p>Футуристичен стил с тъмна основа и неонови зелени акценти. Идеален за компании, предлагащи интелигентни климатични решения за умен дом.</p>
+                <a href="site-3-smart/index.html" class="card-link">
+                    Преглед <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-banner">
+                <span class="banner-label">Сайт 4</span>
+            </div>
+            <div class="card-body">
+                <h2>Air Breeze</h2>
+                <span class="theme-tag">Небесно синьо &bull; Облачно бяло</span>
+                <p>Лек и свеж дизайн с меки небесни цветове и облачни текстури. Създава усещане за чистота, свежест и лек ветрец в горещ летен ден.</p>
+                <a href="site-4-air/index.html" class="card-link">
+                    Преглед <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-banner">
+                <span class="banner-label">Сайт 5</span>
+            </div>
+            <div class="card-body">
+                <h2>Pro HVAC</h2>
+                <span class="theme-tag">Въглен &bull; Сигнално жълто</span>
+                <p>Професионален и индустриален облик с тъмна въгленова основа и ярки жълти акценти. Създаден за сериозни HVAC фирми с богат опит.</p>
+                <a href="site-5-pro/index.html" class="card-link">
+                    Преглед <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 HVAC Шаблони &mdash; Комплект <span>Б</span></p>
+    </footer>
+</body>
+</html>

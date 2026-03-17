@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти — Фрост Климат</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --ice: #e8f4fd; --blue: #0ea5e9; --blue-dark: #0284c7; --white: #ffffff; --gray: #64748b; --dark: #0f172a; }
+        body { font-family: 'Rubik', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Rajdhani', sans-serif; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(14,165,233,0.15); transition: box-shadow 0.3s; }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(14,165,233,0.12); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; }
+        .logo { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--blue-dark); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
+        .logo span { color: var(--blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--blue); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .hamburger span { width: 26px; height: 2.5px; background: var(--dark); border-radius: 2px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+        @media(max-width:768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 60px; left: 0; width: 100%; flex-direction: column; background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 1.5rem; gap: 1.2rem; transform: translateY(-120%); transition: transform 0.4s; border-bottom: 1px solid rgba(14,165,233,0.15); }
+            .nav-links.open { transform: translateY(0); }
+        }
+
+        .page-hero { padding: 8rem 1.5rem 4rem; background: linear-gradient(135deg, var(--ice), #bae6fd); text-align: center; }
+        .page-hero h1 { font-size: 2.8rem; color: var(--dark); margin-bottom: 0.8rem; animation: fadeUp 0.8s ease-out; }
+        .page-hero p { color: var(--gray); font-size: 1.1rem; max-width: 550px; margin: 0 auto; animation: fadeUp 1s ease-out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CONTACT SECTION */
+        .contact-section { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+        @media(max-width:768px) { .contact-section { grid-template-columns: 1fr; } }
+
+        /* FORM */
+        .form-wrapper { background: rgba(232,244,253,0.5); backdrop-filter: blur(12px); border: 1px solid rgba(14,165,233,0.12); border-radius: 20px; padding: 2.5rem; }
+        .form-wrapper h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--dark); }
+        .form-wrapper .form-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+        .form-group { margin-bottom: 1.4rem; }
+        .form-group label { display: block; font-weight: 500; font-size: 0.92rem; margin-bottom: 0.4rem; color: var(--dark); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.8rem 1rem; border: 1.5px solid rgba(14,165,233,0.2); border-radius: 12px;
+            font-family: 'Rubik', sans-serif; font-size: 0.95rem; color: var(--dark); background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(6px); transition: border-color 0.3s, box-shadow 0.3s; outline: none;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--blue); box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+        }
+        .form-group textarea { resize: vertical; min-height: 90px; }
+        .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
+        .btn-submit {
+            width: 100%; padding: 0.9rem; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            color: var(--white); font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(14,165,233,0.35); }
+        .form-note { text-align: center; color: var(--gray); font-size: 0.82rem; margin-top: 1rem; }
+
+        /* SIDEBAR */
+        .contact-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        .info-card { background: rgba(232,244,253,0.5); backdrop-filter: blur(12px); border: 1px solid rgba(14,165,233,0.12); border-radius: 16px; padding: 1.8rem; }
+        .info-card h3 { font-size: 1.15rem; margin-bottom: 1rem; color: var(--dark); }
+        .info-item { display: flex; align-items: flex-start; gap: 0.8rem; margin-bottom: 1rem; }
+        .info-item .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .info-item .text { color: var(--gray); font-size: 0.92rem; line-height: 1.6; }
+        .info-item .text strong { color: var(--dark); display: block; font-size: 0.95rem; margin-bottom: 0.15rem; }
+        .info-card .hours-table { width: 100%; font-size: 0.9rem; }
+        .hours-table td { padding: 0.35rem 0; color: var(--gray); }
+        .hours-table td:first-child { font-weight: 500; color: var(--dark); }
+        .hours-table td:last-child { text-align: right; }
+        .emergency { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: var(--white); border: none; text-align: center; }
+        .emergency h3 { color: var(--white); }
+        .emergency p { color: rgba(255,255,255,0.85); font-size: 0.92rem; margin-bottom: 0.8rem; }
+        .emergency .phone { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--white); text-decoration: none; display: block; }
+        .emergency .phone:hover { opacity: 0.9; }
+
+        /* MAP */
+        .map-section { padding: 0 1.5rem 5rem; max-width: 1100px; margin: 0 auto; }
+        .map-placeholder { width: 100%; height: 350px; border-radius: 20px; background: var(--ice); border: 2px dashed rgba(14,165,233,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gray); }
+        .map-placeholder .map-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .map-placeholder p { font-size: 0.95rem; }
+        .map-placeholder a { color: var(--blue); text-decoration: none; font-weight: 500; margin-top: 0.5rem; }
+        .map-placeholder a:hover { text-decoration: underline; }
+
+        footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 4rem 1.5rem 1.5rem; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; }
+        footer h4 { font-family: 'Rajdhani', sans-serif; color: var(--white); font-size: 1.2rem; margin-bottom: 1rem; }
+        footer p, footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.92rem; line-height: 1.8; }
+        footer a:hover { color: var(--blue); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.4rem; }
+        .social-links { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .social-links a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--white); transition: background 0.3s; font-size: 0.9rem; }
+        .social-links a:hover { background: var(--blue); }
+        .footer-bottom { max-width: 1100px; margin: 2.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+
+        @media(max-width:600px) { .page-hero h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="logo"><span>&#10052;</span> Фрост Климат</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="services.html">Услуги</a></li>
+            <li><a href="brands.html">Марки</a></li>
+            <li><a href="contact.html" class="active">Контакти</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <h1>Свържете се с нас</h1>
+    <p>Заявете безплатен оглед или ни пишете за всякакви въпроси. Отговаряме до 2 часа в работно време.</p>
+</section>
+
+<section class="contact-section">
+    <!-- FORM -->
+    <div class="form-wrapper">
+        <h2>Заяви оглед</h2>
+        <p class="form-desc">Попълнете формата и наш специалист ще се свърже с вас за потвърждение на удобна дата и час.</p>
+        <form action="#" method="POST" onsubmit="event.preventDefault(); document.getElementById('successMsg').style.display='block'; this.reset();">
+            <div class="form-group">
+                <label for="name">Име *</label>
+                <input type="text" id="name" name="name" placeholder="Вашето пълно име" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон *</label>
+                <input type="tel" id="phone" name="phone" placeholder="+359 888 123 456" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Адрес</label>
+                <input type="text" id="address" name="address" placeholder="Град, квартал, улица">
+            </div>
+            <div class="form-group">
+                <label for="service">Тип услуга *</label>
+                <select id="service" name="service" required>
+                    <option value="" disabled selected>Изберете услуга</option>
+                    <option value="montazh">Монтаж</option>
+                    <option value="servis">Сервиз</option>
+                    <option value="otoplenie">Отопление</option>
+                    <option value="ventilaciya">Вентилация</option>
+                    <option value="termopompi">Термопомпи</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Предпочитана дата</label>
+                <input type="date" id="date" name="date">
+            </div>
+            <div class="form-group">
+                <label for="message">Допълнителна информация</label>
+                <textarea id="message" name="message" placeholder="Опишете накратко какво ви е необходимо..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Изпрати заявка</button>
+            <p class="form-note">* Задължителни полета. Ще се свържем с вас до 2 часа.</p>
+            <div id="successMsg" style="display:none; margin-top:1rem; padding:1rem; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:12px; text-align:center; color:#059669; font-weight:500;">
+                Заявката ви е изпратена успешно! Ще се свържем с вас скоро.
+            </div>
+        </form>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="contact-sidebar">
+        <div class="info-card">
+            <h3>Контактна информация</h3>
+            <div class="info-item">
+                <div class="icon">&#128222;</div>
+                <div class="text">
+                    <strong>Телефон</strong>
+                    +359 2 987 6543
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="icon">&#128231;</div>
+                <div class="text">
+                    <strong>Имейл</strong>
+                    info@frostclimat.bg
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="icon">&#128205;</div>
+                <div class="text">
+                    <strong>Адрес</strong>
+                    бул. Витоша 120<br>София 1000, България
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>Работно време</h3>
+            <table class="hours-table">
+                <tr><td>Понеделник - Петък</td><td>08:00 - 18:00</td></tr>
+                <tr><td>Събота</td><td>09:00 - 14:00</td></tr>
+                <tr><td>Неделя</td><td>Почивен ден</td></tr>
+            </table>
+        </div>
+
+        <div class="info-card emergency">
+            <h3>Аварийна линия 24/7</h3>
+            <p>При спешна нужда от ремонт, обадете се по всяко време:</p>
+            <a href="tel:+359888999000" class="phone">+359 888 999 000</a>
+        </div>
+    </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+    <div class="map-placeholder">
+        <div class="map-icon">&#128506;</div>
+        <p>Google Maps — бул. Витоша 120, София</p>
+        <a href="https://maps.google.com/?q=42.6861,23.3189" target="_blank" rel="noopener">Отвори в Google Maps</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div>
+            <h4>&#10052; Фрост Климат</h4>
+            <p>Вашият надежден партньор за климатични решения в София и региона от 2010 година.</p>
+            <div class="social-links" style="margin-top:1rem;">
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Instagram">in</a>
+                <a href="#" aria-label="Viber">V</a>
+            </div>
+        </div>
+        <div>
+            <h4>Навигация</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Контакти</h4>
+            <p>&#128222; +359 2 987 6543</p>
+            <p>&#128231; info@frostclimat.bg</p>
+            <p>&#128205; бул. Витоша 120, София 1000, България</p>
+        </div>
+        <div>
+            <h4>Работно време</h4>
+            <p>Пон - Пет: 08:00 - 18:00</p>
+            <p>Събота: 09:00 - 14:00</p>
+            <p>Неделя: Почивен ден</p>
+            <p style="margin-top:0.5rem;">Аварийна линия: 24/7</p>
+        </div>
+    </div>
+    <div class="footer-bottom">&copy; 2024 Фрост Климат. Всички права запазени.</div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); navLinks.classList.toggle('open'); });
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30); });
+</script>
+</body>
+</html>

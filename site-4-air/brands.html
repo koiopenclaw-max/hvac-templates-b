@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еър Брийз | Марки</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; color: #333; background: #f8f9fa; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Quicksand', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(135,206,235,0.15); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: 'Quicksand', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4fc3f7; }
+        .logo span { color: #87ceeb; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 600; color: #555; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #4fc3f7; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: #4fc3f7; border-radius: 3px; transition: 0.3s; }
+
+        .page-hero { padding: 140px 20px 80px; text-align: center; background: linear-gradient(135deg, #e0f4ff 0%, #b3e5fc 50%, #87ceeb 100%); position: relative; overflow: hidden; }
+        .page-hero::after { content: ''; position: absolute; bottom: 20%; right: 8%; width: 160px; height: 55px; background: rgba(255,255,255,0.22); border-radius: 50%; animation: float 8s ease-in-out infinite; }
+        .page-hero h1 { font-size: 2.8rem; color: #fff; margin-bottom: 15px; text-shadow: 0 2px 12px rgba(79,195,247,0.3); }
+        .page-hero p { color: rgba(255,255,255,0.9); font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+
+        .brands-intro { padding: 60px 20px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+        .brands-intro h2 { font-size: 2rem; color: #333; margin-bottom: 15px; }
+        .brands-intro p { color: #777; line-height: 1.8; font-size: 1.05rem; }
+
+        .brands-section { padding: 40px 20px 80px; max-width: 1200px; margin: 0 auto; }
+        .brands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 35px; }
+        .brand-card { background: #fff; border-radius: 22px; padding: 40px 35px; box-shadow: 0 8px 35px rgba(135,206,235,0.1); transition: all 0.4s; animation: fadeInUp 0.8s ease backwards; position: relative; overflow: hidden; }
+        .brand-card:nth-child(2) { animation-delay: 0.1s; }
+        .brand-card:nth-child(3) { animation-delay: 0.2s; }
+        .brand-card:nth-child(4) { animation-delay: 0.3s; }
+        .brand-card:nth-child(5) { animation-delay: 0.4s; }
+        .brand-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(135,206,235,0.2); }
+        .brand-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #b3e5fc, #4fc3f7); border-radius: 22px 22px 0 0; }
+        .brand-header { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; }
+        .brand-logo { width: 65px; height: 65px; background: linear-gradient(135deg, #e8f6fd, #b3e5fc); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.75rem; color: #4fc3f7; text-align: center; line-height: 1.2; flex-shrink: 0; }
+        .brand-header h3 { font-size: 1.5rem; color: #333; }
+        .brand-header .brand-country { color: #aaa; font-size: 0.9rem; display: block; margin-top: 3px; }
+        .brand-card p { color: #666; line-height: 1.75; margin-bottom: 15px; }
+        .brand-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .brand-tag { padding: 6px 14px; background: #e8f6fd; color: #4fc3f7; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+
+        .partners-cta { padding: 80px 20px; text-align: center; background: linear-gradient(135deg, #4fc3f7, #87ceeb); }
+        .partners-cta h2 { font-size: 2rem; color: #fff; margin-bottom: 15px; }
+        .partners-cta p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-white { display: inline-block; padding: 15px 40px; background: #fff; color: #4fc3f7; font-weight: 700; border-radius: 50px; font-size: 1.1rem; transition: all 0.3s; }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        footer { background: #1a3a4a; color: #ccc; padding: 60px 20px 30px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Quicksand', sans-serif; color: #4fc3f7; margin-bottom: 18px; font-size: 1.2rem; }
+        .footer-col p, .footer-col a { color: #aaa; line-height: 2; display: block; transition: color 0.3s; }
+        .footer-col a:hover { color: #4fc3f7; }
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(79,195,247,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4fc3f7; font-weight: 700; transition: all 0.3s; }
+        .social-links a:hover { background: #4fc3f7; color: #fff; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; color: #777; max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px 30px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .page-hero h1 { font-size: 2rem; }
+            .brands-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Еър <span>Брийз</span></a>
+            <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Начало</a></li>
+                <li><a href="about.html">За нас</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="brands.html" class="active">Марки</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Марки партньори</h1>
+        <p>Работим с най-добрите световни производители на климатична техника</p>
+    </section>
+
+    <section class="brands-intro">
+        <h2>Оторизиран дистрибутор</h2>
+        <p>Еър Брийз е оторизиран партньор на водещите марки в климатичната индустрия. Предлагаме само оригинални продукти с пълна гаранция и сервизно обслужване.</p>
+    </section>
+
+    <section class="brands-section">
+        <div class="brands-grid">
+            <div class="brand-card">
+                <div class="brand-header">
+                    <div class="brand-logo">DAIKIN</div>
+                    <div>
+                        <h3>Daikin</h3>
+                        <span class="brand-country">Япония</span>
+                    </div>
+                </div>
+                <p>Световен лидер в производството на климатични системи. Daikin предлага иновативни технологии за максимална енергийна ефективност и комфорт. Техните инверторни технологии задават стандарти в индустрията.</p>
+                <p>Известни с изключителната си надеждност, тихата работа и дългия експлоатационен живот.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">A+++</span>
+                    <span class="brand-tag">Wi-Fi</span>
+                    <span class="brand-tag">Термопомпи</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-header">
+                    <div class="brand-logo">MITSUBISHI</div>
+                    <div>
+                        <h3>Mitsubishi Electric</h3>
+                        <span class="brand-country">Япония</span>
+                    </div>
+                </div>
+                <p>Mitsubishi Electric е синоним на японско качество и прецизност. Техните климатични системи съчетават авангардни технологии с елегантен дизайн.</p>
+                <p>Специализирани решения за битови и промишлени нужди с впечатляваща енергийна ефективност.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">3D поток</span>
+                    <span class="brand-tag">Филтрация</span>
+                    <span class="brand-tag">VRF системи</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-header">
+                    <div class="brand-logo">TOSHIBA</div>
+                    <div>
+                        <h3>Toshiba</h3>
+                        <span class="brand-country">Япония</span>
+                    </div>
+                </div>
+                <p>Пионер в инверторната технология, Toshiba предлага надеждни и ефективни климатични решения. Компанията е изобретател на двуроторния компресор.</p>
+                <p>Отличен избор за баланс между качество, производителност и достъпна цена.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Двуроторен компресор</span>
+                    <span class="brand-tag">Плазмен филтър</span>
+                    <span class="brand-tag">Тихо</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-header">
+                    <div class="brand-logo">FUJITSU</div>
+                    <div>
+                        <h3>Fujitsu</h3>
+                        <span class="brand-country">Япония</span>
+                    </div>
+                </div>
+                <p>Fujitsu предлага широка гама от климатични решения с акцент върху комфорта и екологичността. Модерни технологии за пречистване на въздуха.</p>
+                <p>Компактен дизайн, тиха работа и интелигентно управление чрез сензори за присъствие.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Сензор движение</span>
+                    <span class="brand-tag">R32 фреон</span>
+                    <span class="brand-tag">Компактен</span>
+                </div>
+            </div>
+
+            <div class="brand-card">
+                <div class="brand-header">
+                    <div class="brand-logo">MIDEA</div>
+                    <div>
+                        <h3>Midea</h3>
+                        <span class="brand-country">Китай</span>
+                    </div>
+                </div>
+                <p>Midea е най-големият производител на климатична техника в света. Предлагат отлично съотношение цена-качество с модерни технологии и стилен дизайн.</p>
+                <p>Широка гама от модели за всеки бюджет, без компромис с надеждността и функционалността.</p>
+                <div class="brand-tags">
+                    <span class="brand-tag">Достъпна цена</span>
+                    <span class="brand-tag">Инвертор</span>
+                    <span class="brand-tag">Wi-Fi</span>
+                    <span class="brand-tag">Йонизатор</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners-cta">
+        <h2>Не сте сигурни коя марка да изберете?</h2>
+        <p>Нашите специалисти ще ви помогнат да изберете най-подходящата система за вашите нужди и бюджет</p>
+        <a href="contact.html" class="btn-white">Консултирайте се с нас</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Еър Брийз</h4>
+                <p>Вашият надежден партньор за климатични решения в Бургас и региона. Комфорт и свеж въздух за вашия дом.</p>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">ig</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="index.html">Начало</a>
+                <a href="about.html">За нас</a>
+                <a href="services.html">Услуги</a>
+                <a href="brands.html">Марки</a>
+                <a href="contact.html">Контакти</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <p>ул. Александровска 78, Бургас 8000</p>
+                <p>+359 56 812 345</p>
+                <p>info@airbreeze.bg</p>
+                <p>Пон - Пет: 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Еър Брийз. Всички права запазени.</p>
+        </div>
+    </footer>
+</body>
+</html>
